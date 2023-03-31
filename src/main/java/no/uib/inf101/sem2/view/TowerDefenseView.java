@@ -1,5 +1,6 @@
 package no.uib.inf101.sem2.view;
 
+
 import no.uib.inf101.sem2.grid.CellPositionToPixelConverter;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.model.GameState;
@@ -8,11 +9,11 @@ import no.uib.inf101.sem2.model.TowerDefenseModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static no.uib.inf101.sem2.view.Inf101Graphics.drawCenteredString;
 import static no.uib.inf101.sem2.view.Inf101Graphics.loadImageFromResources;
@@ -27,13 +28,13 @@ public class TowerDefenseView extends JPanel {
     private final static int buttonWidth = windowWidth / 2;
     private final static int buttonHeight = windowHeight / 6;
 
-    private final Image buttonImage;
     private final Image mainMenuBgImage;
     private final Image pausedBgImage;
     private final Image gameplayBgWithPathImage;
     private final Image sideBarBgImage;
-    private final Image bottomBarBgImage;
-
+    private final ViewableTowerDefenseModel model;
+    private final File fontFile = new File("src/main/resources/misc/BebasNeue-Regular.ttf");
+    private final Font titleFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
     // Create buttons
     ImageButton startButton;
     ImageButton restartButton;
@@ -41,12 +42,6 @@ public class TowerDefenseView extends JPanel {
     ImageButton resumeButton;
     ImageButton mainMenuButton;
     ImageButton exitButton;
-
-    private final ViewableTowerDefenseModel model;
-    private final File fontFile = new File("src/main/resources/BebasNeue-Regular.ttf");
-    private final Font titleFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-
-    private final List<ImageButton> currentButtons = new ArrayList<>();
 
     public TowerDefenseView(TowerDefenseModel model) throws IOException, FontFormatException {
         this.model = model;
@@ -57,24 +52,58 @@ public class TowerDefenseView extends JPanel {
         this.setPreferredSize(new Dimension(windowWidth, windowHeight));
 
         // Load images
-        buttonImage = loadImageFromResources("button.png");
-        mainMenuBgImage = loadImageFromResources("main-menu-bg.png");
-        pausedBgImage = loadImageFromResources("paused-bg.png");
-        gameplayBgWithPathImage = loadImageFromResources("gameplay-bg-withpath.png");
-        sideBarBgImage = loadImageFromResources("sidebar-bg-image.png");
-        bottomBarBgImage = loadImageFromResources("tilable-bg.png");
+        Image buttonImage = loadImageFromResources("misc/button.png");
+        mainMenuBgImage = loadImageFromResources("backgrounds/main-menu-bg.png");
+        pausedBgImage = loadImageFromResources("backgrounds/paused-bg.png");
+        gameplayBgWithPathImage = loadImageFromResources("backgrounds/gameplay-bg-withpath.png");
+        sideBarBgImage = loadImageFromResources("backgrounds/tilable-bg.png");
 
         // Create buttons
-        startButton = new ImageButton(buttonImage, "Start");
-        restartButton = new ImageButton(buttonImage, "Restart");
-        pauseButton = new ImageButton(buttonImage, "Pause");
-        resumeButton = new ImageButton(buttonImage, "Resume");
-        mainMenuButton = new ImageButton(buttonImage, "Main Menu");
-        exitButton = new ImageButton(buttonImage, "Exit");
-        
+        startButton = new ImageButton(buttonImage, "Start", e -> {
+            model.startGame();
+            updateButtonVisibility(model.getGameState());
+        });
+        restartButton = new ImageButton(buttonImage, "Restart", e -> {
+            model.restartGame();
+            updateButtonVisibility(model.getGameState());
+        });
+        pauseButton = new ImageButton(buttonImage, "Pause", e -> {
+            model.pauseGame();
+            updateButtonVisibility(model.getGameState());
+        });
+        resumeButton = new ImageButton(buttonImage, "Resume", e -> {
+            model.resumeGame();
+            updateButtonVisibility(model.getGameState());
+        });
+        mainMenuButton = new ImageButton(buttonImage, "Main Menu", e -> {
+            model.mainMenu();
+            updateButtonVisibility(model.getGameState());
+        });
+        exitButton = new ImageButton(buttonImage, "Exit", e -> {
+            model.exitGame();
+            updateButtonVisibility(model.getGameState());
+        });
 
-        // Update button layout based on the initial game state
-        updateButtonLayout(model.getGameState());
+
+        // Add buttons to the panel
+        add(startButton);
+        add(restartButton);
+        add(pauseButton);
+        add(resumeButton);
+        add(mainMenuButton);
+        add(exitButton);
+
+        // Set initial visibility of buttons
+        updateButtonVisibility(model.getGameState());
+
+        // Add a component listener to call positionButtons when the component is resized
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                positionButtons();
+            }
+        });
+
     }
 
     private static void drawCells(Graphics2D graphics2D,
@@ -97,86 +126,6 @@ public class TowerDefenseView extends JPanel {
         graphics2D.fill(cellRectangle);
     }
 
-    public void updateButtonLayout(GameState gameState) throws IOException, FontFormatException {
-
-        List<ImageButton> buttons = new ArrayList<>();
-
-        // Remove current buttons from the panel
-        for (ImageButton button : currentButtons) {
-            remove(button);
-        }
-        currentButtons.clear();
-
-        // Add button listeners
-        startButton.addActionListener(e -> model.startGame());
-
-        restartButton.addActionListener(e -> model.restartGame());
-
-        pauseButton.addActionListener(e -> model.pauseGame());
-
-        resumeButton.addActionListener(e -> model.resumeGame());
-
-        mainMenuButton.addActionListener(e -> model.mainMenu());
-
-        exitButton.addActionListener(e -> System.exit(0));
-
-        // Set visibility of buttons initially
-        startButton.setVisible(false);
-        restartButton.setVisible(false);
-        pauseButton.setVisible(false);
-        resumeButton.setVisible(false);
-        mainMenuButton.setVisible(false);
-        exitButton.setVisible(false);
-
-
-        // Depending on the game state, create the relevant buttons
-        switch (gameState) {
-            case MAIN_MENU -> {
-                buttons.add(startButton);
-                buttons.add(exitButton);
-            }
-            case PAUSE_SCREEN -> {
-                buttons.add(resumeButton);
-                buttons.add(restartButton);
-                buttons.add(mainMenuButton);
-            }
-            case GAME_OVER_SCREEN, VICTORY_SCREEN -> {
-                buttons.add(restartButton);
-                buttons.add(mainMenuButton);
-            }
-            case IN_GAME -> buttons.add(pauseButton);
-        }
-
-        int titleAreaHeight = getHeight() / 4;
-        int totalButtonHeight = buttons.size() * buttonHeight;
-        int remainingSpace = getHeight() - totalButtonHeight - titleAreaHeight;
-        int spacing = remainingSpace / (buttons.size() + 1);
-
-        int yPos;
-        if (buttons.size() == 1) {
-            // If there's only one button, position it towards the bottom fifth of the screen
-            yPos = getHeight() - getHeight() / 10 - buttonHeight/2;
-        } else {
-            // Position the buttons vertically, centered and evenly spaced
-            yPos = titleAreaHeight + spacing;
-        }
-
-        for (ImageButton button : buttons) {
-            button.setBounds((getWidth() - buttonWidth) / 2, yPos, buttonWidth, buttonHeight);
-            yPos += buttonHeight + spacing;
-            add(button);
-            button.setVisible(true);
-        }
-
-        // Add the new buttons to the list of current buttons
-        currentButtons.addAll(buttons);
-
-        // Repaint the container to show the new layout
-        revalidate();
-        repaint();
-
-    }
-
     @Override
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
@@ -188,13 +137,6 @@ public class TowerDefenseView extends JPanel {
         graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        // Update button layout based on the game state
-        try {
-            updateButtonLayout(model.getGameState());
-        } catch (IOException | FontFormatException e) {
-            e.printStackTrace();
-        }
-
         switch (model.getGameState()) {
             case MAIN_MENU -> drawMainMenu(graphics2D);
             case IN_GAME -> drawGame(graphics2D);
@@ -202,7 +144,56 @@ public class TowerDefenseView extends JPanel {
             case VICTORY_SCREEN -> drawGameWon(graphics2D);
             case PAUSE_SCREEN -> drawPauseMenu(graphics2D);
         }
+
         repaint();
+    }
+
+    private void updateButtonVisibility(GameState gameState) {
+        startButton.setVisible(false);
+        restartButton.setVisible(false);
+        pauseButton.setVisible(false);
+        resumeButton.setVisible(false);
+        mainMenuButton.setVisible(false);
+        exitButton.setVisible(false);
+
+        switch (gameState) {
+            case MAIN_MENU -> {
+                startButton.setVisible(true);
+                exitButton.setVisible(true);
+            }
+            case IN_GAME -> pauseButton.setVisible(true);
+            case PAUSE_SCREEN -> {
+                resumeButton.setVisible(true);
+                restartButton.setVisible(true);
+                mainMenuButton.setVisible(true);
+            }
+            case GAME_OVER_SCREEN, VICTORY_SCREEN -> {
+                restartButton.setVisible(true);
+                mainMenuButton.setVisible(true);
+            }
+        }
+    }
+
+
+    private void positionButtons() {
+        double titleHeight = getHeight() / 4.0;
+
+        positionButton(startButton, 0, 2, titleHeight);
+        positionButton(restartButton, 1, 3, titleHeight);
+        positionButton(pauseButton, 0, 1, titleHeight);
+        positionButton(resumeButton, 0, 3, titleHeight);
+        positionButton(mainMenuButton, 2, 3, titleHeight);
+        positionButton(exitButton, 1, 2, titleHeight);
+    }
+
+    private void positionButton(ImageButton button, int index, int totalButtons, double titleHeight) {
+        double screenWidth = getWidth();
+        double screenHeight = getHeight();
+        double spacing = (screenHeight - titleHeight) / (totalButtons + 1);
+        int buttonX = (int) ((screenWidth - buttonWidth) / 2);
+        int buttonY = (int) (titleHeight + (index + 1) * (spacing));
+
+        button.setBounds(buttonX, buttonY, buttonWidth, buttonHeight); // Set the bounds for the button
     }
 
 
@@ -266,7 +257,7 @@ public class TowerDefenseView extends JPanel {
         drawImageRectangle(graphics2D, new Rectangle2D.Double(0, 0, getWidth(), getHeight() + 100), pausedBgImage);
 
         // Draw title
-        graphics2D.setFont(new Font("Arial", Font.BOLD, 40));
+        graphics2D.setFont(titleFont.deriveFont(75f));
         graphics2D.setColor(Color.WHITE);
         graphics2D.drawString("Paused", 330, 100);
     }
@@ -282,11 +273,6 @@ public class TowerDefenseView extends JPanel {
                         0,
                         8 * (double) getWidth() / 10,
                         8 * (double) getHeight() / 10);
-        CellPositionToPixelConverter converter =
-                new CellPositionToPixelConverter(
-                        gameRectangle,
-                        model.getGridDimension(),
-                        0);
 
         drawImageRectangle(graphics2D, gameRectangle, gameplayBgWithPathImage);
 
@@ -306,7 +292,7 @@ public class TowerDefenseView extends JPanel {
                             8 * (double) getHeight() / 10,
                             (double) getWidth() / 4,
                             2 * (double) getHeight() / 10);
-            drawImageRectangle(graphics2D, bottomBarCellRectangle, bottomBarBgImage);
+            drawImageRectangle(graphics2D, bottomBarCellRectangle, sideBarBgImage);
         }
 
     }
@@ -344,8 +330,8 @@ public class TowerDefenseView extends JPanel {
      * Draws an image within a rectangle
      *
      * @param graphics2D the graphics object to draw on
-     * @param rectangle the rectangle to draw the image in
-     * @param image the image to draw
+     * @param rectangle  the rectangle to draw the image in
+     * @param image      the image to draw
      */
     private void drawImageRectangle(Graphics2D graphics2D, Rectangle2D rectangle, Image image) {
         graphics2D.drawImage(image, (int) rectangle.getX(), (int) rectangle.getY(), (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);

@@ -1,42 +1,46 @@
 package no.uib.inf101.sem2.view;
 
-import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JButton;
+
 /**
  * This class extends JButton to create a custom button with an image background
  * and some special visual effects when the user interacts with it.
  */
-public class ImageButton extends JButton {
+public class ImageButton extends JButton{
 
-    private final File fontFile = new File("src/main/resources/BebasNeue-Regular.ttf");
-    private final Font buttonFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
     private final Image buttonImage;
     private boolean isMouseOver = false;
     private boolean isMousePressed = false;
 
     /**
-     * Creates a new ImageButton with the given image and text.
+     * Creates a new ImageButton with the given image, text, and ActionListener.
      *
      * @param buttonImage the image to use as the background of the button
      * @param text the text to display on the button
+     * @param actionListener the ActionListener to be invoked when the button is clicked
      * @throws IOException if there is an error reading the font file
      * @throws FontFormatException if there is an error creating the font
      */
-    public ImageButton(Image buttonImage, String text) throws IOException, FontFormatException {
+    public ImageButton(Image buttonImage, String text, ActionListener actionListener) throws IOException, FontFormatException {
         this.buttonImage = buttonImage;
         setOpaque(false);
         setContentAreaFilled(false);
         setBorderPainted(false);
         setFocusPainted(false);
         setForeground(Color.WHITE);
+        File fontFile = new File("src/main/resources/misc/BebasNeue-Regular.ttf");
+        Font buttonFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
         setFont(buttonFont.deriveFont(40f));
         setText(text);
+        addActionListener(actionListener);
 
         // Add mouse listeners to track when the user interacts with the button
         addMouseListener(new MouseAdapter() {
@@ -86,5 +90,9 @@ public class ImageButton extends JButton {
 
         // Call the superclass's paintComponent method to draw the button's text and borders
         super.paintComponent(g);
+    }
+
+    {}    protected void draw(Graphics2D graphics2D) {
+        graphics2D.drawImage(buttonImage, 0, 0, getWidth(), getHeight(), this);
     }
 }

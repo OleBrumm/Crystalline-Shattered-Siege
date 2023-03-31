@@ -1,6 +1,6 @@
 package no.uib.inf101.sem2.view;
 
-import no.uib.inf101.sem2.entity.Enemy;
+import no.uib.inf101.sem2.entity.enemy.Enemy1;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
 import no.uib.inf101.sem2.model.GameState;
@@ -21,7 +21,7 @@ public interface ViewableTowerDefenseModel {
 
     int getLives();
 
-    ArrayList<Enemy> getEnemies();
+    ArrayList<Enemy1> getEnemies();
 
     int getEnemiesKilled();
 
@@ -41,7 +41,7 @@ public interface ViewableTowerDefenseModel {
 
     void exitGame();
 
-    void updateEnemies(ArrayList<Enemy> enemies);
+    void updateEnemies(ArrayList<Enemy1> enemies);
 
     void startGame();
 

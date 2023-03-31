@@ -1,9 +1,9 @@
 package no.uib.inf101.sem2.model;
 
 import no.uib.inf101.sem2.controller.ControllableTowerDefenseModel;
-import no.uib.inf101.sem2.entity.Enemy;
+import no.uib.inf101.sem2.entity.enemy.Enemy1;
 import no.uib.inf101.sem2.entity.Projectile;
-import no.uib.inf101.sem2.entity.Tower;
+import no.uib.inf101.sem2.entity.tower.Tower;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
 import no.uib.inf101.sem2.view.ViewableTowerDefenseModel;
@@ -13,15 +13,15 @@ import java.util.ArrayList;
 
 public class TowerDefenseModel implements ViewableTowerDefenseModel, ControllableTowerDefenseModel {
     // Fields
-    private TowerDefenseField field;
+    private final TowerDefenseField field;
     private TowerDefenseField shopField;
     private int enemiesKilled;
     private GameState gameState;
     private int level;
     private int lives;
     private int gold;
-    private ArrayList<Enemy> enemies;
-    private ArrayList<Tower> towers;
+    private ArrayList<Enemy1> enemies;
+    private ArrayList<Object> towers;
     private ArrayList<Projectile> projectiles;
     private int interval;
 
@@ -91,7 +91,7 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     }
 
     @Override
-    public ArrayList<Enemy> getEnemies() {
+    public ArrayList<Enemy1> getEnemies() {
         return enemies;
     }
 
@@ -128,14 +128,14 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     // Game state control methods
     @Override
     public void startGame() {
-        gameState = GameState.IN_GAME;
+        setGameState(GameState.IN_GAME);
         spawnEnemiesForLevel(level);
         startGameLoop();
     }
 
     @Override
     public void restartGame() {
-        gameState = GameState.IN_GAME;
+        setGameState(GameState.IN_GAME);
         resetGame();
         spawnEnemiesForLevel(level);
         startGameLoop();
@@ -143,19 +143,19 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
 
     @Override
     public void pauseGame() {
-        gameState = GameState.PAUSE_SCREEN;
+        setGameState(GameState.PAUSE_SCREEN);
         stopGameLoop();
     }
 
     @Override
     public void resumeGame() {
-        gameState = GameState.IN_GAME;
+        setGameState(GameState.IN_GAME);
         startGameLoop();
     }
 
     @Override
     public void mainMenu() {
-        gameState = GameState.MAIN_MENU;
+        setGameState(GameState.MAIN_MENU);
         stopGameLoop();
         resetGame();
     }
@@ -218,7 +218,7 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
         // Check for game over conditions, e.g., no more lives or all enemies defeated
     }
 
-    public void updateEnemies(ArrayList<Enemy> enemies) {
+    public void updateEnemies(ArrayList<Enemy1> enemies) {
         this.enemies = enemies;
     }
 
@@ -226,12 +226,12 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
         this.projectiles = projectiles;
     }
 
-    public void updateTowers(ArrayList<Tower> towers) {
+    public void updateTowers(ArrayList<Object > towers) {
         this.towers = towers;
     }
 
     // Game logic methods (examples, you can add more based on your requirements)
-    public void spawnEnemy(Enemy enemy) {
+    public void spawnEnemy(Enemy1 enemy) {
         enemies.add(enemy);
     }
 

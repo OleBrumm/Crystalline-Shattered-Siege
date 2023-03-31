@@ -51,11 +51,6 @@ public class TowerDefenseController implements KeyListener {
                 }
             }
         }
-        try {
-            view.updateButtonLayout(model.getGameState());
-        } catch (IOException | FontFormatException ex) {
-            throw new RuntimeException(ex);
-        }
         view.repaint();
     }
 
