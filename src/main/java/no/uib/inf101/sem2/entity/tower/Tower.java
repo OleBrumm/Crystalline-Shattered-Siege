@@ -21,9 +21,9 @@ public class Tower implements ITower {
 
     protected Tower newTower(String typeOfTower){
         return switch (typeOfTower) {
-            case "FireTower" -> new Tower("FireTower", 1, 50, 200, 0, "Towers/FireTower.png");
-            case "TreeTower" -> new Tower("TreeTower", 1, 50, 200, 0, "Towers/TreeTower.png");
-            case "IceTower" -> new Tower("IceTower", 1, 50, 200, 0, "Towers/IceTower.png");
+            case "FireTower" -> new Tower("FireTower", 3, 35, 500, 750, "Towers/FireTower.png");
+            case "IceTower" -> new Tower("IceTower", 2, 35, 350, 750, "Towers/IceTower.png");
+            case "TreeTower" -> new Tower("TreeTower", 1, 25, 200, 450, "Towers/TreeTower.png");
             default -> null;
         };
     }

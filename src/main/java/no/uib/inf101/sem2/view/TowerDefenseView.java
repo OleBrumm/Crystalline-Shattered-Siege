@@ -14,6 +14,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static no.uib.inf101.sem2.view.Inf101Graphics.drawCenteredString;
 import static no.uib.inf101.sem2.view.Inf101Graphics.loadImageFromResources;
@@ -43,6 +44,10 @@ public class TowerDefenseView extends JPanel {
     ImageButton mainMenuButton;
     ImageButton exitButton;
 
+    Image iceTowerImage;
+    Image fireTowerImage;
+    Image treeTowerImage;
+
     public TowerDefenseView(TowerDefenseModel model) throws IOException, FontFormatException {
         this.model = model;
 
@@ -57,6 +62,11 @@ public class TowerDefenseView extends JPanel {
         pausedBgImage = loadImageFromResources("backgrounds/paused-bg.png");
         gameplayBgWithPathImage = loadImageFromResources("backgrounds/gameplay-bg-withpath.png");
         sideBarBgImage = loadImageFromResources("backgrounds/tilable-bg.png");
+
+        iceTowerImage = loadImageFromResources("Towers/IceTower.png");
+        fireTowerImage = loadImageFromResources("Towers/FireTower.png");
+        treeTowerImage = loadImageFromResources("Towers/TreeTower.png");
+
 
         // Create buttons
         startButton = new ImageButton(buttonImage, "Start", e -> {
@@ -180,7 +190,7 @@ public class TowerDefenseView extends JPanel {
 
         positionButton(startButton, 0, 2, titleHeight);
         positionButton(restartButton, 1, 3, titleHeight);
-        positionButton(pauseButton, 0, 1, titleHeight);
+        pauseButton.setBounds(0, 8 * getHeight() / 10, getWidth() / 4, 2 * getHeight() / 10);
         positionButton(resumeButton, 0, 3, titleHeight);
         positionButton(mainMenuButton, 2, 3, titleHeight);
         positionButton(exitButton, 1, 2, titleHeight);
@@ -226,8 +236,8 @@ public class TowerDefenseView extends JPanel {
         graphics2D.fillRect(0, 0, getWidth(), getHeight());
 
         // Draw title
-        graphics2D.setFont(new Font("Arial", Font.BOLD, 40));
-        graphics2D.setColor(Color.WHITE);
+        graphics2D.setFont(titleFont.deriveFont(75f));
+        graphics2D.setColor(Color.RED);
         graphics2D.drawString("Game Over", 300, 100);
     }
 
@@ -271,12 +281,11 @@ public class TowerDefenseView extends JPanel {
         Rectangle2D gameRectangle =
                 new Rectangle2D.Double(0,
                         0,
-                        8 * (double) getWidth() / 10,
+                        getWidth(),
                         8 * (double) getHeight() / 10);
 
         drawImageRectangle(graphics2D, gameRectangle, gameplayBgWithPathImage);
 
-        drawShop(graphics2D);
         drawBottomBar(graphics2D);
     }
 
@@ -294,37 +303,46 @@ public class TowerDefenseView extends JPanel {
                             2 * (double) getHeight() / 10);
             drawImageRectangle(graphics2D, bottomBarCellRectangle, sideBarBgImage);
         }
-
-    }
-
-    /**
-     * Draws the shop
-     *
-     * @param graphics2D the graphics object to draw on
-     */
-    private void drawShop(Graphics2D graphics2D) {
-        Rectangle2D shopTitleRectangle =
-                new Rectangle2D.Double(8 * (double) windowWidth / 10,
-                        0,
-                        2 * (double) windowWidth / 10,
-                        (double) windowHeight / 10);
         Rectangle2D shopRectangle =
-                new Rectangle2D.Double(8 * (double) windowWidth / 10,
-                        (double) windowHeight / 10,
-                        2 * (double) windowWidth / 10,
-                        7 * (double) windowHeight / 10);
-        graphics2D.setColor(new Color(0x6A0DAD));
-        graphics2D.fill(shopTitleRectangle);
-        graphics2D.setColor(new Color(0xFAF0E6));
-        graphics2D.setFont(titleFont.deriveFont(35f));
-        drawCenteredString(graphics2D, "Shop", shopTitleRectangle);
+                new Rectangle2D.Double((double) getWidth() / 4,
+                        8 * (double) getHeight() / 10,
+                        (double) (3 * getWidth()) / 4,
+                        2 * (double) getHeight() / 10);
 
-        TowerDefenseField shopField = new TowerDefenseField(3, 1);
-        CellPositionToPixelConverter converter = new CellPositionToPixelConverter(shopRectangle, shopField, (double) windowHeight / 20);
+        TowerDefenseField shopField = new TowerDefenseField(1, 3);
+        CellPositionToPixelConverter converter = new CellPositionToPixelConverter(shopRectangle, shopField, (double) windowWidth / 40);
 
         drawImageRectangle(graphics2D, shopRectangle, sideBarBgImage);
         drawCells(graphics2D, shopField, converter, new Color(0x6A0DAD));
+
+        ArrayList<Image> towerImages = new ArrayList<>();
+        towerImages.add(iceTowerImage);
+        towerImages.add(fireTowerImage);
+        towerImages.add(treeTowerImage);
+
+        drawCells(graphics2D, shopField, converter, towerImages);
+
     }
+
+    private void drawCells(Graphics2D graphics2D,
+                                  Iterable<GridCell<Character>> cells,
+                                  CellPositionToPixelConverter converter,
+                                  ArrayList<Image> towerImages) {
+        int i = 0;
+        for (GridCell<Character> cell : cells) {
+            drawCell(graphics2D, cell, converter, towerImages.get(i));
+            i++;
+        }
+    }
+
+    private void drawCell(Graphics2D graphics2D,
+                                 GridCell<Character> cell,
+                                 CellPositionToPixelConverter converter,
+                                 Image towerImage) {
+        Rectangle2D cellRectangle = converter.getBoundsForCell(cell.pos());
+        drawImageRectangle(graphics2D, cellRectangle, towerImage);
+    }
+
 
     /**
      * Draws an image within a rectangle
