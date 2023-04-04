@@ -29,9 +29,9 @@ public class CellPositionToPixelConverter {
      * @param cellPosition The cell to get the bounds for
      * @return The bounds of the cell
      */
-    public Rectangle2D getBoundsForCell(CellPosition cellPosition){
-        double cellWidth = (canvasRectangle.getWidth() - (gridDimension.cols()+1)* cellMargin) / gridDimension.cols();
-        double cellHeight = (canvasRectangle.getHeight() - (gridDimension.rows()+1)* cellMargin) / gridDimension.rows();
+    public Rectangle2D getBoundsForCell(CellPosition cellPosition) {
+        double cellWidth = (canvasRectangle.getWidth() - (gridDimension.cols() + 1) * cellMargin) / gridDimension.cols();
+        double cellHeight = (canvasRectangle.getHeight() - (gridDimension.rows() + 1) * cellMargin) / gridDimension.rows();
         double cellX = canvasRectangle.getX() + cellMargin + cellPosition.col() * (cellWidth + cellMargin);
         double cellY = canvasRectangle.getY() + cellMargin + cellPosition.row() * (cellHeight + cellMargin);
 

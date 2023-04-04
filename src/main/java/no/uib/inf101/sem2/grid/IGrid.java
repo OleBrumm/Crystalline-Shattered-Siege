@@ -7,7 +7,7 @@ public interface IGrid<E> extends GridDimension, Iterable<GridCell<E>> {
      * with an equal position as argument will return the value which was set. The
      * method will overwrite any previous value that was stored at the location.
      *
-     * @param pos the position in which to store the value
+     * @param pos   the position in which to store the value
      * @param value the new value
      * @throws IndexOutOfBoundsException if the position does not exist in the grid
      */

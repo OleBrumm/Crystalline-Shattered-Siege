@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class Grid<E> implements IGrid<E>{
+public class Grid<E> implements IGrid<E> {
 
     // The grid
     private final E[][] grid;
@@ -46,6 +46,7 @@ public class Grid<E> implements IGrid<E>{
         }
         grid[pos.row()][pos.col()] = value;
     }
+
     @Override
     public E get(CellPosition pos) {
         return grid[pos.row()][pos.col()];

@@ -1,6 +1,10 @@
 package no.uib.inf101.sem2.view;
 
 
+import no.uib.inf101.sem2.entity.tower.Tower;
+import no.uib.inf101.sem2.entity.tower.TowerFire;
+import no.uib.inf101.sem2.entity.tower.TowerIce;
+import no.uib.inf101.sem2.entity.tower.TowerTree;
 import no.uib.inf101.sem2.grid.CellPositionToPixelConverter;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.model.GameState;
@@ -15,6 +19,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static no.uib.inf101.sem2.view.Inf101Graphics.drawCenteredString;
 import static no.uib.inf101.sem2.view.Inf101Graphics.loadImageFromResources;
@@ -33,7 +38,7 @@ public class TowerDefenseView extends JPanel {
     private final Image pausedBgImage;
     private final Image gameplayBgWithPathImage;
     private final Image sideBarBgImage;
-    private final ViewableTowerDefenseModel model;
+    private final TowerDefenseModel model;
     private final File fontFile = new File("src/main/resources/misc/BebasNeue-Regular.ttf");
     private final Font titleFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
     // Create buttons
@@ -286,8 +291,38 @@ public class TowerDefenseView extends JPanel {
 
         drawImageRectangle(graphics2D, gameRectangle, gameplayBgWithPathImage);
 
+        CellPositionToPixelConverter converter = new CellPositionToPixelConverter(gameRectangle, model.getGridDimension(), 0);
+        drawCells(graphics2D, model.getTilesOnBoard(), converter, new Color(0, 0, 0, 0));
+
+        model.addTower(new TowerIce(2, 2));
+        List<Tower> towers = model.getTowers();
+        for (Tower tower : towers) {
+            drawTower(graphics2D, tower, converter);
+        }
+
         drawBottomBar(graphics2D);
     }
+
+    private void drawTower(Graphics2D graphics2D, Tower tower, CellPositionToPixelConverter converter) {
+        Rectangle2D towerRectangle = converter.getBoundsForCell(tower.getPosition());
+        Image towerImage = getTowerImage(tower);
+        drawImageRectangle(graphics2D, towerRectangle, towerImage);
+    }
+
+    private Image getTowerImage(Tower tower) {
+        // Return the appropriate image for the tower type
+        if (tower instanceof TowerIce) {
+            return iceTowerImage;
+        } else if (tower instanceof TowerFire) {
+            return fireTowerImage;
+        } else if (tower instanceof TowerTree) {
+            return treeTowerImage;
+        } else {
+            // Handle unknown tower types (e.g., return a default image)
+            return null;
+        }
+    }
+
 
     /**
      * Draws the bottom bar
@@ -325,9 +360,9 @@ public class TowerDefenseView extends JPanel {
     }
 
     private void drawCells(Graphics2D graphics2D,
-                                  Iterable<GridCell<Character>> cells,
-                                  CellPositionToPixelConverter converter,
-                                  ArrayList<Image> towerImages) {
+                           Iterable<GridCell<Character>> cells,
+                           CellPositionToPixelConverter converter,
+                           ArrayList<Image> towerImages) {
         int i = 0;
         for (GridCell<Character> cell : cells) {
             drawCell(graphics2D, cell, converter, towerImages.get(i));
@@ -336,9 +371,9 @@ public class TowerDefenseView extends JPanel {
     }
 
     private void drawCell(Graphics2D graphics2D,
-                                 GridCell<Character> cell,
-                                 CellPositionToPixelConverter converter,
-                                 Image towerImage) {
+                          GridCell<Character> cell,
+                          CellPositionToPixelConverter converter,
+                          Image towerImage) {
         Rectangle2D cellRectangle = converter.getBoundsForCell(cell.pos());
         drawImageRectangle(graphics2D, cellRectangle, towerImage);
     }

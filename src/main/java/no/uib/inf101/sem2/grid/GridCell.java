@@ -6,4 +6,5 @@ package no.uib.inf101.sem2.grid;
  * @param pos   The position of the cell
  * @param value The value of the cell
  */
-public record GridCell<E>(CellPosition pos, E value) { }
+public record GridCell<E>(CellPosition pos, E value) {
+}

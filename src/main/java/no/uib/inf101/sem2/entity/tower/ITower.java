@@ -2,27 +2,78 @@ package no.uib.inf101.sem2.entity.tower;
 
 public interface ITower {
 
-        int getRange();
+    /**
+     * Returns the range of the tower
+     *
+     * @return the range of the tower
+     */
+    int getRange();
 
-        int getDamage();
+    /**
+     * Sets the range of the tower
+     *
+     * @param range the range of the tower
+     */
+    void setRange(int range);
 
-        int getCost();
+    /**
+     * Returns the damage output of the tower
+     *
+     * @return the damage output of the tower
+     */
+    int getDamage();
 
-        String getSprite();
+    /**
+     * Sets the damage output of the tower
+     *
+     * @param damage the damage output of the tower
+     */
+    void setDamage(int damage);
 
-        int getLevel();
+    /**
+     * Returns the cost of the tower
+     *
+     * @return the cost of the tower
+     */
+    int getCost();
 
-        int getUpgradeCost();
+    /**
+     * Sets the cost of the tower
+     *
+     * @param cost the cost of the tower
+     */
+    void setCost(int cost);
 
-        void upgrade();
+    /**
+     * Returns the level of the tower
+     *
+     * @return the level of the tower
+     */
+    int getLevel();
 
-        void setLevel(int level);
+    /**
+     * Sets the level of the tower
+     *
+     * @param level the level of the tower
+     */
+    void setLevel(int level);
 
-        void setDamage(int damage);
+    /**
+     * Returns the upgrade cost of the tower
+     *
+     * @return the upgrade cost of the tower
+     */
+    int getUpgradeCost();
 
-        void setRange(int range);
+    /**
+     * Sets the upgrade cost of the tower
+     *
+     * @param upgradeCost the upgrade cost of the tower
+     */
+    void setUpgradeCost(int upgradeCost);
 
-        void setCost(int cost);
-
-        void setUpgradeCost(int upgradeCost);
+    /**
+     * Upgrades the tower
+     */
+    void upgrade();
 }

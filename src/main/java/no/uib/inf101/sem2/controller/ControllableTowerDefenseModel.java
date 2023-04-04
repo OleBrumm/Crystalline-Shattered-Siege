@@ -5,7 +5,6 @@ import no.uib.inf101.sem2.model.GameState;
 public interface ControllableTowerDefenseModel {
 
 
-
     /**
      * Get the current game state.
      *

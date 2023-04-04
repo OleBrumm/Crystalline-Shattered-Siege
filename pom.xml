@@ -118,7 +118,9 @@
         <profile>
             <id>build-mac</id>
             <activation>
-                <os><family>mac</family></os>
+                <os>
+                    <family>mac</family>
+                </os>
             </activation>
             <build>
                 <plugins>
@@ -161,7 +163,9 @@
         <profile>
             <id>build-windows</id>
             <activation>
-                <os><family>windows</family></os>
+                <os>
+                    <family>windows</family>
+                </os>
             </activation>
             <build>
                 <plugins>

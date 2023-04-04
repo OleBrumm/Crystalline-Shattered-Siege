@@ -5,17 +5,16 @@ import no.uib.inf101.sem2.model.TowerDefenseModel;
 import no.uib.inf101.sem2.view.TowerDefenseView;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
 
 public class TowerDefenseController implements KeyListener {
 
     ControllableTowerDefenseModel model;
     TowerDefenseView view;
     Timer timer;
+
     public TowerDefenseController(TowerDefenseModel towerDefenseModel, TowerDefenseView towerDefenseView) {
         // Set the model and view
         this.model = towerDefenseModel;

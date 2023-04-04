@@ -1,5 +1,6 @@
 package no.uib.inf101.sem2.view;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -8,13 +9,11 @@ import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.JButton;
-
 /**
  * This class extends JButton to create a custom button with an image background
  * and some special visual effects when the user interacts with it.
  */
-public class ImageButton extends JButton{
+public class ImageButton extends JButton {
 
     private final Image buttonImage;
     private boolean isMouseOver = false;
@@ -23,10 +22,10 @@ public class ImageButton extends JButton{
     /**
      * Creates a new ImageButton with the given image, text, and ActionListener.
      *
-     * @param buttonImage the image to use as the background of the button
-     * @param text the text to display on the button
+     * @param buttonImage    the image to use as the background of the button
+     * @param text           the text to display on the button
      * @param actionListener the ActionListener to be invoked when the button is clicked
-     * @throws IOException if there is an error reading the font file
+     * @throws IOException         if there is an error reading the font file
      * @throws FontFormatException if there is an error creating the font
      */
     public ImageButton(Image buttonImage, String text, ActionListener actionListener) throws IOException, FontFormatException {
@@ -92,7 +91,10 @@ public class ImageButton extends JButton{
         super.paintComponent(g);
     }
 
-    {}    protected void draw(Graphics2D graphics2D) {
+    {
+    }
+
+    protected void draw(Graphics2D graphics2D) {
         graphics2D.drawImage(buttonImage, 0, 0, getWidth(), getHeight(), this);
     }
 }

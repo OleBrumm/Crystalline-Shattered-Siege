@@ -1,14 +1,15 @@
 package no.uib.inf101.sem2.model;
 
 import no.uib.inf101.sem2.controller.ControllableTowerDefenseModel;
-import no.uib.inf101.sem2.entity.enemy.Enemy1;
-import no.uib.inf101.sem2.entity.Projectile;
+import no.uib.inf101.sem2.entity.projectile.Projectile;
+import no.uib.inf101.sem2.entity.enemy.Enemy;
 import no.uib.inf101.sem2.entity.tower.Tower;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
 import no.uib.inf101.sem2.view.ViewableTowerDefenseModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TowerDefenseModel implements ViewableTowerDefenseModel, ControllableTowerDefenseModel {
@@ -20,8 +21,8 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     private int level;
     private int lives;
     private int gold;
-    private ArrayList<Enemy1> enemies;
-    private ArrayList<Object> towers;
+    private List<Enemy> enemies;
+    private List<Tower> towers;
     private ArrayList<Projectile> projectiles;
     private int interval;
 
@@ -91,7 +92,7 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     }
 
     @Override
-    public ArrayList<Enemy1> getEnemies() {
+    public List<Enemy> getEnemies() {
         return enemies;
     }
 
@@ -218,7 +219,7 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
         // Check for game over conditions, e.g., no more lives or all enemies defeated
     }
 
-    public void updateEnemies(ArrayList<Enemy1> enemies) {
+    public void updateEnemies(List<Enemy> enemies) {
         this.enemies = enemies;
     }
 
@@ -226,12 +227,12 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
         this.projectiles = projectiles;
     }
 
-    public void updateTowers(ArrayList<Object > towers) {
+    public void updateTowers(List<Tower> towers) {
         this.towers = towers;
     }
 
     // Game logic methods (examples, you can add more based on your requirements)
-    public void spawnEnemy(Enemy1 enemy) {
+    public void spawnEnemy(Enemy enemy) {
         enemies.add(enemy);
     }
 
@@ -239,7 +240,7 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
         towers.add(tower);
     }
 
-    public void fireProjectile(Projectile projectile) {
-        projectiles.add(projectile);
+    public List<Tower> getTowers() {
+        return towers;
     }
 }

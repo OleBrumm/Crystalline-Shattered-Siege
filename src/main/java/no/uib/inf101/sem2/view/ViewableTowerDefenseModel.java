@@ -1,11 +1,12 @@
 package no.uib.inf101.sem2.view;
 
-import no.uib.inf101.sem2.entity.enemy.Enemy1;
+import no.uib.inf101.sem2.entity.enemy.Enemy;
+import no.uib.inf101.sem2.entity.tower.Tower;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
 import no.uib.inf101.sem2.model.GameState;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface ViewableTowerDefenseModel {
 
@@ -21,7 +22,7 @@ public interface ViewableTowerDefenseModel {
 
     int getLives();
 
-    ArrayList<Enemy1> getEnemies();
+    List<Enemy> getEnemies();
 
     int getEnemiesKilled();
 
@@ -41,7 +42,7 @@ public interface ViewableTowerDefenseModel {
 
     void exitGame();
 
-    void updateEnemies(ArrayList<Enemy1> enemies);
+    void updateEnemies(List<Enemy> enemies);
 
     void startGame();
 
@@ -53,4 +54,5 @@ public interface ViewableTowerDefenseModel {
 
     void mainMenu();
 
+    List<Tower> getTowers();
 }

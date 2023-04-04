@@ -1,8 +1,8 @@
 package no.uib.inf101.sem2.view;
 
 import java.awt.*;
-import java.util.List;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 public class Menu {
     private final List<ImageButton> buttons;
