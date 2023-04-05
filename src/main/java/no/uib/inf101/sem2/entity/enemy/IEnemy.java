@@ -1,5 +1,7 @@
 package no.uib.inf101.sem2.entity.enemy;
 
+import no.uib.inf101.sem2.grid.CellPosition;
+
 public interface IEnemy {
 
     /**
@@ -58,4 +60,10 @@ public interface IEnemy {
      */
     public void setY(int y);
 
+    /**
+     * Returns the position of the enemy
+     *
+     * @return the position of the enemy
+     */
+    CellPosition getPosition();
 }

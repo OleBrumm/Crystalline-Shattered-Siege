@@ -16,9 +16,8 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     // Fields
     private final TowerDefenseField field;
     private TowerDefenseField shopField;
-    private int enemiesKilled;
     private GameState gameState;
-    private int level;
+    private int wave;
     private int lives;
     private int gold;
     private List<Enemy> enemies;
@@ -30,11 +29,10 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     public TowerDefenseModel(TowerDefenseField field) {
         this.field = field;
         this.gameState = GameState.MAIN_MENU;
-        this.level = 1;
-        this.lives = 10;
-        this.gold = 100;
+        this.wave = 1;
+        this.lives = 100;
+        this.gold = 800;
         this.enemies = new ArrayList<>();
-        this.enemiesKilled = 0;
         this.towers = new ArrayList<>();
         this.projectiles = new ArrayList<>();
         this.interval = 1000;
@@ -97,23 +95,13 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     }
 
     @Override
-    public int getEnemiesKilled() {
-        return enemiesKilled;
+    public int getWave() {
+        return wave;
     }
 
     @Override
-    public void setEnemiesKilled(int enemiesKilled) {
-        this.enemiesKilled = enemiesKilled;
-    }
-
-    @Override
-    public int getLevel() {
-        return level;
-    }
-
-    @Override
-    public void setLevel(int level) {
-        this.level = level;
+    public void setWave(int wave) {
+        this.wave = wave;
     }
 
     @Override
@@ -130,7 +118,7 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     @Override
     public void startGame() {
         setGameState(GameState.IN_GAME);
-        spawnEnemiesForLevel(level);
+        spawnEnemiesForLevel(wave);
         startGameLoop();
     }
 
@@ -138,7 +126,7 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     public void restartGame() {
         setGameState(GameState.IN_GAME);
         resetGame();
-        spawnEnemiesForLevel(level);
+        spawnEnemiesForLevel(wave);
         startGameLoop();
     }
 
@@ -170,8 +158,7 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     private void resetGame() {
         setGold(800);
         setLives(100);
-        setEnemiesKilled(0);
-        setLevel(1);
+        setWave(1);
         updateEnemies(new ArrayList<>());
         updateTowers(new ArrayList<>());
         updateProjectiles(new ArrayList<>());
@@ -243,4 +230,5 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     public List<Tower> getTowers() {
         return towers;
     }
+
 }

@@ -24,9 +24,7 @@ public interface ViewableTowerDefenseModel {
 
     List<Enemy> getEnemies();
 
-    int getEnemiesKilled();
-
-    int getLevel();
+    int getWave();
 
     int getInterval();
 
@@ -36,9 +34,7 @@ public interface ViewableTowerDefenseModel {
 
     void setLives(int lives);
 
-    void setEnemiesKilled(int enemiesKilled);
-
-    void setLevel(int level);
+    void setWave(int level);
 
     void exitGame();
 
@@ -55,4 +51,5 @@ public interface ViewableTowerDefenseModel {
     void mainMenu();
 
     List<Tower> getTowers();
+
 }

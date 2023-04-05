@@ -1,5 +1,7 @@
 package no.uib.inf101.sem2.entity.enemy;
 
+import no.uib.inf101.sem2.grid.CellPosition;
+
 public class Enemy implements IEnemy {
 
     public int x;
@@ -57,6 +59,11 @@ public class Enemy implements IEnemy {
     @Override
     public void setY(int y) {
         this.y = y;
+    }
+
+    @Override
+    public CellPosition getPosition() {
+        return new CellPosition(x, y);
     }
 
 }
