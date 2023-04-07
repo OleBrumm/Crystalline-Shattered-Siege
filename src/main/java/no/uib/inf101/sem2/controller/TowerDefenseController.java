@@ -23,34 +23,12 @@ public class TowerDefenseController implements KeyListener {
         view.addKeyListener(this);
         // Create a new timer
         this.timer = new Timer(towerDefenseModel.getTimerInterval(), this::clockTick);
+        this.timer.start();
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_E) {
-            System.out.println(model.getGameState());
-        }
-        switch (model.getGameState()) {
-            case MAIN_MENU -> {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_ENTER -> startGame();
-                    case KeyEvent.VK_ESCAPE -> System.exit(0);
-                }
-            }
-            case IN_GAME -> {
-                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    model.pauseGame();
-                    timer.stop();
-                }
-            }
-            case PAUSE_SCREEN -> {
-                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    model.resumeGame();
-                    timer.start();
-                }
-            }
-        }
-        view.repaint();
+       // TODO: Implement this method
     }
 
     // Start the game and start the timer
@@ -70,14 +48,6 @@ public class TowerDefenseController implements KeyListener {
     }
 
     private void clockTick(ActionEvent actionEvent) {
-        if (model.getGameState() == GameState.GAME_OVER_SCREEN) {
-            timer.stop();
-            return;
-        } else if (model.getGameState() == GameState.PAUSE_SCREEN) {
-            timer.stop();
-            return;
-        }
-        setTimerInterval(model.getTimerInterval());
         model.clockTick();
         view.repaint();
     }

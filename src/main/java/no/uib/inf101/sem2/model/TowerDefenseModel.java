@@ -34,7 +34,7 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
         this.enemies = new ArrayList<>();
         this.towers = new ArrayList<>();
         this.projectiles = new ArrayList<>();
-        this.interval = 1000;
+        this.interval = 15;
     }
 
     // Implemented methods from interfaces
