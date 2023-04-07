@@ -1,5 +1,7 @@
 package no.uib.inf101.sem2.entity.projectile;
 
+import no.uib.inf101.sem2.screen.ScreenPosition;
+
 public class Projectile implements IProjectile {
 
     private double x;
@@ -15,7 +17,6 @@ public class Projectile implements IProjectile {
     public double getX() {
         return x;
     }
-
     public double getY() {
         return y;
     }
@@ -35,4 +36,14 @@ public class Projectile implements IProjectile {
     public void setDir(double dir) {
         this.dir = dir;
     }
+
+    public ScreenPosition getPosition() {
+        return new ScreenPosition(x, y);
+    }
+
+    public void move() {
+        x += Math.cos(dir);
+        y += Math.sin(dir);
+    }
+
 }

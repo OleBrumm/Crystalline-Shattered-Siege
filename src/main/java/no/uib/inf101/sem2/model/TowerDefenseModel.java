@@ -1,8 +1,8 @@
 package no.uib.inf101.sem2.model;
 
 import no.uib.inf101.sem2.controller.ControllableTowerDefenseModel;
-import no.uib.inf101.sem2.entity.projectile.Projectile;
 import no.uib.inf101.sem2.entity.enemy.Enemy;
+import no.uib.inf101.sem2.entity.projectile.Projectile;
 import no.uib.inf101.sem2.entity.tower.Tower;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
@@ -15,7 +15,6 @@ import java.util.List;
 public class TowerDefenseModel implements ViewableTowerDefenseModel, ControllableTowerDefenseModel {
     // Fields
     private final TowerDefenseField field;
-    private TowerDefenseField shopField;
     private GameState gameState;
     private int wave;
     private int lives;
@@ -229,6 +228,14 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
 
     public List<Tower> getTowers() {
         return towers;
+    }
+
+    public List<Projectile> getProjectiles() {
+        return projectiles;
+    }
+
+    public void addProjectile(Projectile projectile) {
+        projectiles.add(projectile);
     }
 
 }

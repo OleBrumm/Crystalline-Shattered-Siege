@@ -6,8 +6,6 @@ import no.uib.inf101.sem2.entity.tower.TowerIce;
 import no.uib.inf101.sem2.entity.tower.TowerTree;
 import no.uib.inf101.sem2.grid.CellPositionToPixelConverter;
 
-import no.uib.inf101.sem2.view.TowerDefenseView;
-
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
@@ -30,7 +28,7 @@ public class TowerRenderer {
     private void drawTower(Graphics2D graphics2D, Tower tower, CellPositionToPixelConverter converter) {
         Rectangle2D towerRectangle = converter.getBoundsForCell(tower.getPosition());
         Image towerImage = getTowerImage(tower);
-        TowerDefenseView.drawImageRectangle(graphics2D, towerRectangle, towerImage);
+        RenderingUtils.drawImageRectangle(graphics2D, towerRectangle, towerImage);
     }
 
     /**

@@ -58,6 +58,7 @@ public class ImageButton extends JButton {
             @Override
             public void mousePressed(MouseEvent e) {
                 isMousePressed = true;
+
                 repaint();
             }
 
@@ -89,9 +90,6 @@ public class ImageButton extends JButton {
 
         // Call the superclass's paintComponent method to draw the button's text and borders
         super.paintComponent(g);
-    }
-
-    {
     }
 
     protected void draw(Graphics2D graphics2D) {

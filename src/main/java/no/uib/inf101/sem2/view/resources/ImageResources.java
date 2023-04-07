@@ -39,6 +39,9 @@ public class ImageResources {
         images.put("GoldIcon", loadImageFromResources("misc/gold.png"));
         images.put("HeartIcon", loadImageFromResources("misc/heart.png"));
         images.put("WaveIcon", loadImageFromResources("misc/wave.png"));
+        images.put("ProjectileIce", loadImageFromResources("Projectiles/ProjectileIce.png"));
+        images.put("ProjectileFire", loadImageFromResources("Projectiles/ProjectileFire.png"));
+        images.put("ProjectileTree", loadImageFromResources("Projectiles/ProjectileTree.png"));
     }
 
     /**

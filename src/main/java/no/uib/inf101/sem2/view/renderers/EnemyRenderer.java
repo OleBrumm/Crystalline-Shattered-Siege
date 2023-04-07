@@ -5,7 +5,6 @@ import no.uib.inf101.sem2.entity.enemy.EnemyBlue;
 import no.uib.inf101.sem2.entity.enemy.EnemyRed;
 import no.uib.inf101.sem2.entity.enemy.EnemyYellow;
 import no.uib.inf101.sem2.grid.CellPositionToPixelConverter;
-import no.uib.inf101.sem2.view.TowerDefenseView;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -28,7 +27,7 @@ public class EnemyRenderer {
     private void drawEnemy(Graphics2D graphics2D, Enemy enemy, CellPositionToPixelConverter converter) {
         Rectangle2D enemyRectangle = converter.getBoundsForCell(enemy.getPosition());
         Image enemyImage = getEnemyImage(enemy);
-        TowerDefenseView.drawImageRectangle(graphics2D, enemyRectangle, enemyImage);
+        RenderingUtils.drawImageRectangle(graphics2D, enemyRectangle, enemyImage);
     }
 
     /**
