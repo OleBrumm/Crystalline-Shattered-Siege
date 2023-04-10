@@ -1,6 +1,7 @@
 package no.uib.inf101.sem2.view.views;
 
 import no.uib.inf101.sem2.grid.CellPositionToPixelConverter;
+import no.uib.inf101.sem2.grid.ScreenPositionToBoundsConverter;
 import no.uib.inf101.sem2.model.TowerDefenseModel;
 import no.uib.inf101.sem2.view.backgrounds.BackgroundImages;
 import no.uib.inf101.sem2.view.renderers.*;
@@ -42,9 +43,12 @@ public class GameRenderer {
                         8 * (double) screenHeight / 10);
         RenderingUtils.drawImageRectangle(graphics2D, gameRectangle, backgroundImages.gameplayBgWithPathImage);
 
+        // Converter to convert screen positions to bounds of the game board
+        ScreenPositionToBoundsConverter screenPositionConverter = new ScreenPositionToBoundsConverter();
+
         // Draw the grid lines on the game board
-        CellPositionToPixelConverter converter = new CellPositionToPixelConverter(gameRectangle, model.getGridDimension(), 0);
-        RenderingUtils.drawCells(graphics2D, model.getTilesOnBoard(), converter, new Color(0, 0, 0, 0));
+        CellPositionToPixelConverter cellPositionConverter = new CellPositionToPixelConverter(gameRectangle, model.getGridDimension(), 0);
+        RenderingUtils.drawCells(graphics2D, model.getTilesOnBoard(), cellPositionConverter, new Color(0, 0, 0, 0));
 
         // Add the enemy images to a map
         Map<String, Image> enemyImages = new HashMap<>();
@@ -54,7 +58,7 @@ public class GameRenderer {
 
         // Draw the enemies
         EnemyRenderer enemyRenderer = new EnemyRenderer(enemyImages);
-        enemyRenderer.drawEnemies(graphics2D, converter, model.getEnemies());
+        enemyRenderer.drawEnemies(graphics2D, screenPositionConverter, model.getEnemies());
 
         // Add the tower images to a map
         Map<String, Image> towerImages = new HashMap<>();
@@ -64,7 +68,7 @@ public class GameRenderer {
 
         // Draw the towers
         TowerRenderer towerRenderer = new TowerRenderer(towerImages);
-        towerRenderer.drawTowers(graphics2D, converter, model.getTowers());
+        towerRenderer.drawTowers(graphics2D, cellPositionConverter, model.getTowers());
 
         // Add the projectile images to a map
         Map<String, Image> projectileImages = new HashMap<>();

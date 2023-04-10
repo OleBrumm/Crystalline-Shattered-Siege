@@ -42,8 +42,8 @@ public class Projectile implements IProjectile {
     }
 
     public void move() {
-        x += Math.cos(dir);
-        y += Math.sin(dir);
+        x += Math.cos(Math.toRadians(dir));
+        y += Math.sin(Math.toRadians(dir));
     }
 
 }

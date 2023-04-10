@@ -1,7 +1,6 @@
 package no.uib.inf101.sem2.view.buttons;
 
 import no.uib.inf101.sem2.model.GameState;
-import no.uib.inf101.sem2.model.TowerDefenseModel;
 import no.uib.inf101.sem2.view.ImageButton;
 
 import javax.swing.*;
@@ -19,37 +18,18 @@ public class ButtonManager extends JPanel {
     /**
      * The button manager is responsible for creating and managing all the buttons in the game.
      *
-     * @param model       The game model
      * @param buttonImage The image to use for the buttons
      *
      * @throws IOException If the image file cannot be found
      * @throws FontFormatException If the font file cannot be found
      */
-    public ButtonManager(TowerDefenseModel model, Image buttonImage) throws IOException, FontFormatException {
-        startButton = new ImageButton(buttonImage, "Start", e -> {
-            model.startGame();
-            updateButtonVisibility(model.getGameState());
-        });
-        restartButton = new ImageButton(buttonImage, "Restart", e -> {
-            model.restartGame();
-            updateButtonVisibility(model.getGameState());
-        });
-        pauseButton = new ImageButton(buttonImage, "Pause", e -> {
-            model.pauseGame();
-            updateButtonVisibility(model.getGameState());
-        });
-        resumeButton = new ImageButton(buttonImage, "Resume", e -> {
-            model.resumeGame();
-            updateButtonVisibility(model.getGameState());
-        });
-        mainMenuButton = new ImageButton(buttonImage, "Main Menu", e -> {
-            model.mainMenu();
-            updateButtonVisibility(model.getGameState());
-        });
-        exitButton = new ImageButton(buttonImage, "Exit", e -> {
-            model.exitGame();
-            updateButtonVisibility(model.getGameState());
-        });
+    public ButtonManager(Image buttonImage) throws IOException, FontFormatException {
+        startButton = new ImageButton(buttonImage, "Start", null);
+        restartButton = new ImageButton(buttonImage, "Restart", null);
+        pauseButton = new ImageButton(buttonImage, "Pause", null);
+        resumeButton = new ImageButton(buttonImage, "Resume", null);
+        mainMenuButton = new ImageButton(buttonImage, "Main Menu", null);
+        exitButton = new ImageButton(buttonImage, "Exit", null);
 
         this.setLayout(null); // Set layout to null so that you can position the buttons using setBounds
         this.setOpaque(false); // Set this to false so that the ButtonManager background is transparent

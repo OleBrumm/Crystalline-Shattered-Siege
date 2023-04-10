@@ -2,17 +2,28 @@ package no.uib.inf101.sem2.model;
 
 import no.uib.inf101.sem2.controller.ControllableTowerDefenseModel;
 import no.uib.inf101.sem2.entity.enemy.Enemy;
+import no.uib.inf101.sem2.entity.enemy.Waypoints;
 import no.uib.inf101.sem2.entity.projectile.Projectile;
 import no.uib.inf101.sem2.entity.tower.Tower;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
+import no.uib.inf101.sem2.screen.ScreenPosition;
 import no.uib.inf101.sem2.view.ViewableTowerDefenseModel;
+import no.uib.inf101.sem2.entity.enemy.Wave;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * TowerDefenseModel class handles the game's state and logic.
+ */
 public class TowerDefenseModel implements ViewableTowerDefenseModel, ControllableTowerDefenseModel {
+
+    // Window dimensions for scaling
+    private final int WINDOW_WIDTH = 800;
+    private final int WINDOW_HEIGHT = 480;
+
     // Fields
     private final TowerDefenseField field;
     private GameState gameState;
@@ -23,8 +34,14 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     private List<Tower> towers;
     private ArrayList<Projectile> projectiles;
     private int interval;
+    private final List<ScreenPosition> waypoints;
+    private final Wave waveManager;
 
-    // Constructor
+    /**
+     * Constructor for TowerDefenseModel.
+     *
+     * @param field the game field
+     */
     public TowerDefenseModel(TowerDefenseField field) {
         this.field = field;
         this.gameState = GameState.MAIN_MENU;
@@ -35,9 +52,13 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
         this.towers = new ArrayList<>();
         this.projectiles = new ArrayList<>();
         this.interval = 15;
+        this.waypoints = new Waypoints(new Rectangle2D.Double(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT), field, 0).getWaypoints();
+        this.waveManager = new Wave(this);
     }
 
+
     // Implemented methods from interfaces
+
     @Override
     public GridDimension getGridDimension() {
         return field;
@@ -114,37 +135,33 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     }
 
     // Game state control methods
+
     @Override
     public void startGame() {
         setGameState(GameState.IN_GAME);
-        spawnEnemiesForLevel(wave);
-        startGameLoop();
+        wave = 1;
     }
 
     @Override
     public void restartGame() {
         setGameState(GameState.IN_GAME);
         resetGame();
-        spawnEnemiesForLevel(wave);
-        startGameLoop();
+        wave = 1;
     }
 
     @Override
     public void pauseGame() {
         setGameState(GameState.PAUSE_SCREEN);
-        stopGameLoop();
     }
 
     @Override
     public void resumeGame() {
         setGameState(GameState.IN_GAME);
-        startGameLoop();
     }
 
     @Override
     public void mainMenu() {
         setGameState(GameState.MAIN_MENU);
-        stopGameLoop();
         resetGame();
     }
 
@@ -154,6 +171,10 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     }
 
     // Private helper methods
+
+    /**
+     * Resets the game state to the initial conditions.
+     */
     private void resetGame() {
         setGold(800);
         setLives(100);
@@ -161,22 +182,13 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
         updateEnemies(new ArrayList<>());
         updateTowers(new ArrayList<>());
         updateProjectiles(new ArrayList<>());
+        waveManager.reset();
     }
 
-    private void startGameLoop() {
-        // Start a timer or game loop to update game state regularly
-    }
-
-    private void stopGameLoop() {
-        // Stop the timer or game loop
-    }
-
-    private void spawnEnemiesForLevel(int level) {
-        // Spawn enemies based on the current level
-    }
-
+    /**
+     * Updates the game state by moving enemies, updating towers and projectiles, and checking for collisions and game over conditions.
+     */
     private void updateGame() {
-        // Update the game state on each game loop iteration
         moveEnemies();
         updateTowers();
         updateProjectiles();
@@ -184,58 +196,137 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
         checkGameOver();
     }
 
+    /**
+     * Moves all enemies in the game.
+     */
     private void moveEnemies() {
-        // Move enemies along the path
+        for (Enemy enemy : enemies) {
+            enemy.move();
+        }
     }
 
+    /**
+     * Updates all towers in the game, for example, by finding targets and firing projectiles.
+     */
     private void updateTowers() {
         // Update towers, e.g., find targets and fire projectiles
     }
 
+    /**
+     * Updates all projectiles in the game by moving them.
+     */
     private void updateProjectiles() {
-        // Move projectiles and check for collisions with enemies
+        for (Projectile projectile : projectiles) {
+            projectile.move();
+        }
     }
 
+    /**
+     * Checks for collisions between projectiles and enemies, and checks if enemies have reached the end of the path.
+     */
     private void checkCollisions() {
         // Check for collisions between projectiles and enemies
         // Check if enemies have reached the end of the path
     }
 
+    /**
+     * Checks if the game is over (i.e., if the player has no lives left) and updates the game state accordingly.
+     */
     private void checkGameOver() {
-        // Check for game over conditions, e.g., no more lives or all enemies defeated
+        if (lives <= 0) {
+            setGameState(GameState.GAME_OVER_SCREEN);
+        }
     }
 
+    /**
+     * Updates the list of enemies in the game.
+     *
+     * @param enemies The new list of enemies.
+     */
     public void updateEnemies(List<Enemy> enemies) {
         this.enemies = enemies;
     }
 
+    /**
+     * Updates the list of projectiles in the game.
+     *
+     * @param projectiles The new list of projectiles.
+     */
     public void updateProjectiles(ArrayList<Projectile> projectiles) {
         this.projectiles = projectiles;
     }
 
+    /**
+     * Updates the list of towers in the game.
+     *
+     * @param towers The new list of towers.
+     */
     public void updateTowers(List<Tower> towers) {
         this.towers = towers;
     }
 
     // Game logic methods (examples, you can add more based on your requirements)
+
+    /**
+     * Spawns a new enemy in the game.
+     *
+     * @param enemy The enemy to be spawned.
+     */
     public void spawnEnemy(Enemy enemy) {
         enemies.add(enemy);
     }
 
+    /**
+     * Adds a tower to the game.
+     *
+     * @param tower The tower to be added.
+     */
     public void addTower(Tower tower) {
         towers.add(tower);
     }
 
+    /**
+     * Gets the list of towers in the game.
+     *
+     * @return The list of towers.
+     */
     public List<Tower> getTowers() {
         return towers;
     }
 
+    /**
+     * Gets the list of projectiles in the game.
+     *
+     * @return The list of projectiles.
+     */
     public List<Projectile> getProjectiles() {
         return projectiles;
     }
 
+    /**
+     * Adds a projectile to the game.
+     *
+     * @param projectile The projectile to be added.
+     */
     public void addProjectile(Projectile projectile) {
         projectiles.add(projectile);
     }
 
+    /**
+     * Gets the list of waypoints for the enemy path.
+     *
+     * @return The list of waypoints.
+     */
+    public List<ScreenPosition> getWaypoints() {
+        return waypoints;
+    }
+
+    @Override
+    public Wave getWaveManager() {
+        return waveManager;
+    }
+
 }
+
+
+

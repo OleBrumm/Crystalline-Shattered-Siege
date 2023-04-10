@@ -4,7 +4,7 @@ import no.uib.inf101.sem2.entity.enemy.Enemy;
 import no.uib.inf101.sem2.entity.enemy.EnemyBlue;
 import no.uib.inf101.sem2.entity.enemy.EnemyRed;
 import no.uib.inf101.sem2.entity.enemy.EnemyYellow;
-import no.uib.inf101.sem2.grid.CellPositionToPixelConverter;
+import no.uib.inf101.sem2.grid.ScreenPositionToBoundsConverter;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -18,14 +18,14 @@ public class EnemyRenderer {
         this.enemyImages = enemyImages;
     }
 
-    public void drawEnemies(Graphics2D graphics2D, CellPositionToPixelConverter converter, List<Enemy> enemies) {
+    public void drawEnemies(Graphics2D graphics2D, ScreenPositionToBoundsConverter converter, List<Enemy> enemies) {
         for (Enemy enemy : enemies) {
             drawEnemy(graphics2D, enemy, converter);
         }
     }
 
-    private void drawEnemy(Graphics2D graphics2D, Enemy enemy, CellPositionToPixelConverter converter) {
-        Rectangle2D enemyRectangle = converter.getBoundsForCell(enemy.getPosition());
+    private void drawEnemy(Graphics2D graphics2D, Enemy enemy, ScreenPositionToBoundsConverter converter) {
+        Rectangle2D enemyRectangle = converter.getBoundsForObject(enemy.getPosition(), enemy.getSize());
         Image enemyImage = getEnemyImage(enemy);
         RenderingUtils.drawImageRectangle(graphics2D, enemyRectangle, enemyImage);
     }

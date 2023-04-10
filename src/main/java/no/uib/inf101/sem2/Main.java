@@ -1,7 +1,6 @@
 package no.uib.inf101.sem2;
 
 import no.uib.inf101.sem2.controller.TowerDefenseController;
-import no.uib.inf101.sem2.entity.projectile.ProjectileIce;
 import no.uib.inf101.sem2.model.TowerDefenseField;
 import no.uib.inf101.sem2.model.TowerDefenseModel;
 import no.uib.inf101.sem2.view.TowerDefenseView;
@@ -21,10 +20,7 @@ public class Main {
         TowerDefenseModel towerDefenseModel = new TowerDefenseModel(towerDefenseField);
         TowerDefenseView towerDefenseView = new TowerDefenseView(towerDefenseModel);
 
-        new TowerDefenseController(towerDefenseModel, towerDefenseView);
-
-        // test projectile
-        towerDefenseModel.addProjectile(new ProjectileIce(100, 100, 90));
+        new TowerDefenseController(towerDefenseModel, towerDefenseView, towerDefenseView.getButtonManager());
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

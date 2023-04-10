@@ -1,6 +1,6 @@
 package no.uib.inf101.sem2.entity.enemy;
 
-import no.uib.inf101.sem2.grid.CellPosition;
+import no.uib.inf101.sem2.screen.ScreenPosition;
 
 public interface IEnemy {
 
@@ -9,61 +9,80 @@ public interface IEnemy {
      *
      * @return the speed of the enemy
      */
-    public int getSpeed();
+    double getSpeed();
 
     /**
      * Returns the health of the enemy
      *
      * @return the health of the enemy
      */
-    public int getHealth();
+    int getHealth();
 
     /**
      * Returns the amount of gold the player earns for killing the enemy
      *
      * @return the reward of the enemy
      */
-    public int getReward();
+    int getReward();
 
     /**
      * Returns the level of the enemy
      *
      * @return the level of the enemy
      */
-    public int getLevel();
+    int getLevel();
 
     /**
      * Returns the x coordinate of the enemy
      *
      * @return the x coordinate of the enemy
      */
-    public int getX();
+    double getX();
 
     /**
      * Returns the y coordinate of the enemy
      *
      * @return the y coordinate of the enemy
      */
-    public int getY();
+    double getY();
 
     /**
      * Sets the x coordinate of the enemy
      *
      * @param x the x coordinate of the enemy
      */
-    public void setX(int x);
+    void setX(int x);
 
     /**
      * Sets the y coordinate of the enemy
      *
      * @param y the y coordinate of the enemy
      */
-    public void setY(int y);
+    void setY(int y);
 
     /**
      * Returns the position of the enemy
      *
      * @return the position of the enemy
      */
-    CellPosition getPosition();
+    ScreenPosition getPosition();
+
+    /**
+     * Updates the position of the enemy
+     */
+    void move();
+
+    /**
+     * Returns the size of the enemy
+     *
+     * @return the size of the enemy
+     */
+    double getSize();
+
+    /**
+     * Sets the size of the enemy
+     *
+     * @param size the size of the enemy
+     */
+    void setSize(double size);
 }

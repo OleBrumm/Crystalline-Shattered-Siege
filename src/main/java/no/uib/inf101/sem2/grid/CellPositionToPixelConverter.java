@@ -1,5 +1,7 @@
 package no.uib.inf101.sem2.grid;
 
+import no.uib.inf101.sem2.screen.ScreenPosition;
+
 import java.awt.geom.Rectangle2D;
 
 public class CellPositionToPixelConverter {
@@ -36,5 +38,16 @@ public class CellPositionToPixelConverter {
         double cellY = canvasRectangle.getY() + cellMargin + cellPosition.row() * (cellHeight + cellMargin);
 
         return new Rectangle2D.Double(cellX, cellY, cellWidth, cellHeight);
+    }
+
+    /**
+     * Get the center of a cell in pixel coordinates
+     *
+     * @param cellPosition The cell to get the center for
+     * @return The center of the cell
+     */
+    public ScreenPosition getCenterForCell(CellPosition cellPosition) {
+        Rectangle2D bounds = getBoundsForCell(cellPosition);
+        return new ScreenPosition(bounds.getCenterX(), bounds.getCenterY());
     }
 }

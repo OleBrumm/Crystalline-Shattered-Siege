@@ -1,5 +1,7 @@
 package no.uib.inf101.sem2.controller;
 
+import no.uib.inf101.sem2.entity.enemy.Enemy;
+import no.uib.inf101.sem2.entity.enemy.Wave;
 import no.uib.inf101.sem2.model.GameState;
 
 public interface ControllableTowerDefenseModel {
@@ -52,7 +54,24 @@ public interface ControllableTowerDefenseModel {
     void restartGame();
 
     /**
+     * Exits to the main menu.
+     */
+    void mainMenu();
+
+    /**
      * Exit the game.
      */
     void exitGame();
+
+    /**
+     * Spawns an enemy.
+     */
+    void spawnEnemy(Enemy enemy);
+
+    /**
+     * Get the wave manager.
+     *
+     * @return The wave manager.
+     */
+    Wave getWaveManager();
 }
