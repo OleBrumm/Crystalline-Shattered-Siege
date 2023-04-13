@@ -15,6 +15,15 @@ public class RenderingUtils {
                 (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
     }
 
+    public static void drawImageRectangleWithBackground(Graphics2D graphics2D,
+                                                        Rectangle2D rectangle,
+                                                        Image image,
+                                                        Color backgroundColor) {
+        graphics2D.setColor(backgroundColor);
+        graphics2D.fill(rectangle);
+        drawImageRectangle(graphics2D, rectangle, image);
+    }
+
     // Utility method to cells with images instead of colors
     public static void drawImageCells(Graphics2D graphics2D,
                                        Iterable<GridCell<Character>> cells,

@@ -10,14 +10,16 @@ public class Tower implements ITower {
     public int level;
     public int upgradeCost;
     public int x, y;
+    public String type;
 
-    public Tower(int x, int y, int damage, int range, int cost, int upgradeCost) {
+    public Tower(int x, int y, int damage, int range, int cost, int upgradeCost, String type) {
         this.x = x;
         this.y = y;
         this.damage = damage;
         this.range = range;
         this.cost = cost;
         this.upgradeCost = upgradeCost;
+        this.type = type;
     }
 
     @Override
@@ -80,5 +82,10 @@ public class Tower implements ITower {
 
     public CellPosition getPosition() {
         return new CellPosition(x, y);
+    }
+
+    public void setPosition(CellPosition pos) {
+        this.y = pos.col();
+        this.x = pos.row();
     }
 }

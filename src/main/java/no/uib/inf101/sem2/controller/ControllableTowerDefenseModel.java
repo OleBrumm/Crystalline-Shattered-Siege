@@ -2,6 +2,7 @@ package no.uib.inf101.sem2.controller;
 
 import no.uib.inf101.sem2.entity.enemy.Enemy;
 import no.uib.inf101.sem2.entity.enemy.Wave;
+import no.uib.inf101.sem2.entity.tower.Tower;
 import no.uib.inf101.sem2.model.GameState;
 
 public interface ControllableTowerDefenseModel {
@@ -74,4 +75,10 @@ public interface ControllableTowerDefenseModel {
      * @return The wave manager.
      */
     Wave getWaveManager();
+
+    /**
+     * Add a tower to the game.
+     * @param tower The tower to add.
+     */
+    void addTower(Tower tower);
 }

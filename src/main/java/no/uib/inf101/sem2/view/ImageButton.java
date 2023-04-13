@@ -58,7 +58,6 @@ public class ImageButton extends JButton {
             @Override
             public void mousePressed(MouseEvent e) {
                 isMousePressed = true;
-
                 repaint();
             }
 

@@ -30,7 +30,7 @@ public interface IEnemy {
      *
      * @return the level of the enemy
      */
-    int getLevel();
+    int getDamage();
 
     /**
      * Returns the x coordinate of the enemy

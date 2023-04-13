@@ -1,9 +1,6 @@
 package no.uib.inf101.sem2.view.renderers;
 
 import no.uib.inf101.sem2.entity.tower.Tower;
-import no.uib.inf101.sem2.entity.tower.TowerFire;
-import no.uib.inf101.sem2.entity.tower.TowerIce;
-import no.uib.inf101.sem2.entity.tower.TowerTree;
 import no.uib.inf101.sem2.grid.CellPositionToPixelConverter;
 
 import java.awt.*;
@@ -38,14 +35,11 @@ public class TowerRenderer {
      * @return the image for the given tower
      */
     private Image getTowerImage(Tower tower) {
-        if (tower instanceof TowerIce) {
-            return towerImages.get("iceTower");
-        } else if (tower instanceof TowerFire) {
-            return towerImages.get("fireTower");
-        } else if (tower instanceof TowerTree) {
-            return towerImages.get("treeTower");
-        } else {
-            return null;
-        }
+        return switch (tower.type) {
+            case "TREE" -> towerImages.get("TowerTree");
+            case "ICE" -> towerImages.get("TowerIce");
+            case "FIRE" -> towerImages.get("TowerFire");
+            default -> null;
+        };
     }
 }

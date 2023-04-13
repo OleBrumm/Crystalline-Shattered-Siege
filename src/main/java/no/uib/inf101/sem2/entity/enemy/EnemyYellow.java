@@ -6,7 +6,7 @@ import java.util.List;
 
 public class EnemyYellow extends Enemy {
     public EnemyYellow(double x, double y, List<ScreenPosition> waypoints) {
-        super(x, y, 1.5, 5, 50, 0, 25, waypoints);
+        super(x, y, 1.5, 5, 50, 5, 25, waypoints);
     }
 }
 

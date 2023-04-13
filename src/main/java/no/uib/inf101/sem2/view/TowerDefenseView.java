@@ -40,6 +40,7 @@ public class TowerDefenseView extends JPanel {
     private final PausedScreenRenderer pausedScreenRenderer;
     private final VictoryScreenRenderer victoryScreenRenderer;
 
+
     /**
      * Constructs a new TowerDefenseView with the specified game model.
      *
@@ -80,6 +81,7 @@ public class TowerDefenseView extends JPanel {
         gameRenderer = new GameRenderer(model, backgroundImages, imageResources, WINDOW_WIDTH, WINDOW_HEIGHT);
         pausedScreenRenderer = new PausedScreenRenderer(backgroundImages, titleFont, WINDOW_WIDTH, WINDOW_HEIGHT);
         victoryScreenRenderer = new VictoryScreenRenderer(titleFont, WINDOW_WIDTH, WINDOW_HEIGHT);
+
     }
 
     @Override
@@ -109,6 +111,10 @@ public class TowerDefenseView extends JPanel {
      */
     public ButtonManager getButtonManager() {
         return buttonManager;
+    }
+
+    public GameRenderer getGameRenderer() {
+        return gameRenderer;
     }
 }
 

@@ -11,18 +11,18 @@ public class Enemy implements IEnemy {
     public double speed;
     public int health;
     public int reward;
-    public int level;
+    public int damage;
     public double size;
     public int currentWaypointIndex;
     public List<ScreenPosition> waypoints;
 
-    public Enemy(double x, double y, double speed, int health, int reward, int level, double size, List<ScreenPosition> waypoints) {
+    public Enemy(double x, double y, double speed, int health, int reward, int damage, double size, List<ScreenPosition> waypoints) {
         this.x = x;
         this.y = y;
         this.speed = speed;
         this.health = health;
         this.reward = reward;
-        this.level = level;
+        this.damage = damage;
         this.size = size;
         this.currentWaypointIndex = 0;
         this.waypoints = waypoints;
@@ -44,8 +44,8 @@ public class Enemy implements IEnemy {
     }
 
     @Override
-    public int getLevel() {
-        return level;
+    public int getDamage() {
+        return damage;
     }
 
     @Override
@@ -113,6 +113,14 @@ public class Enemy implements IEnemy {
         }
     }
 
+    /**
+     * Checks if the enemy has reached the end of the path.
+     *
+     * @return true if the enemy has reached the end of the path, false otherwise
+     */
+    public boolean hasReachedEnd() {
+        return currentWaypointIndex >= waypoints.size();
+    }
 
     @Override
     public void move() {
