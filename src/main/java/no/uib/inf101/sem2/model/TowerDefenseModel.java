@@ -10,7 +10,6 @@ import no.uib.inf101.sem2.entity.projectile.Projectile;
 import no.uib.inf101.sem2.entity.projectile.projectileTypes.Explosion;
 import no.uib.inf101.sem2.entity.tower.Tower;
 import no.uib.inf101.sem2.grid.CellPosition;
-import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
 import no.uib.inf101.sem2.screen.ScreenPosition;
 import no.uib.inf101.sem2.view.ViewableTowerDefenseModel;

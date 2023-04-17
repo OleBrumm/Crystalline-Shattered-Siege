@@ -4,7 +4,6 @@ import no.uib.inf101.sem2.entity.enemy.Enemy;
 import no.uib.inf101.sem2.entity.projectile.Projectile;
 import no.uib.inf101.sem2.entity.projectile.projectileTypes.Explosion;
 import no.uib.inf101.sem2.entity.tower.Tower;
-import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
 import no.uib.inf101.sem2.model.GameState;
 import no.uib.inf101.sem2.screen.ScreenPosition;

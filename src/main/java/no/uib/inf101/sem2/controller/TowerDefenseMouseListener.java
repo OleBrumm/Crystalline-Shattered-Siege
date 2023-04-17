@@ -12,7 +12,6 @@ public class TowerDefenseMouseListener implements MouseListener, MouseMotionList
 
     public TowerDefenseMouseListener(TowerDefenseController controller) {
         this.controller = controller;
-        GameRenderer renderer = controller.view.getGameRenderer();
     }
 
     @Override

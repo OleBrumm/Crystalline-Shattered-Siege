@@ -9,14 +9,13 @@ import no.uib.inf101.sem2.grid.CellPosition;
 import no.uib.inf101.sem2.grid.CellPositionToPixelConverter;
 import no.uib.inf101.sem2.screen.ScreenPosition;
 
-import javax.swing.*;
 import java.util.List;
 
 public class Tower implements ITower {
 
     private int damage;
     private int range;
-    private int cost;
+    private final int cost;
     private int level;
     private int upgradeCost;
     private int x, y;
