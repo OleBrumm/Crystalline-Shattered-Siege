@@ -1,9 +1,13 @@
 package no.uib.inf101.sem2.entity.enemy;
 
+import no.uib.inf101.sem2.entity.enemy.enemyTypes.EnemyBlue;
+import no.uib.inf101.sem2.entity.enemy.enemyTypes.EnemyRed;
+import no.uib.inf101.sem2.entity.enemy.enemyTypes.EnemyYellow;
 import no.uib.inf101.sem2.model.TowerDefenseModel;
 import no.uib.inf101.sem2.screen.ScreenPosition;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Wave {
@@ -24,14 +28,15 @@ public class Wave {
     private void createWaveEnemies() {
         waveEnemies = new ArrayList<>();
         for (int i = 0; i < waveNumber * 2; i++) {
-            waveEnemies.add(new EnemyRed(waypoints.get(0).x(), waypoints.get(0).y(), waypoints));
+            waveEnemies.add(new EnemyRed(waypoints.get(0).x(), waypoints.get(0).y(), waypoints, 0, 0.5));
         }
         for (int i = 0; i < waveNumber; i++) {
-            waveEnemies.add(new EnemyBlue(waypoints.get(0).x(), waypoints.get(0).y(), waypoints));
+            waveEnemies.add(new EnemyBlue(waypoints.get(0).x(), waypoints.get(0).y(), waypoints, 0, 1));
         }
         for (int i = 0; i < waveNumber / 2; i++) {
-            waveEnemies.add(new EnemyYellow(waypoints.get(0).x(), waypoints.get(0).y(), waypoints));
+            waveEnemies.add(new EnemyYellow(waypoints.get(0).x(), waypoints.get(0).y(), waypoints, 0, 1.5));
         }
+        Collections.shuffle(waveEnemies);
     }
 
     public void spawnEnemiesForWave() {
@@ -51,6 +56,7 @@ public class Wave {
     public void nextWave() {
         waveNumber++;
         enemiesSpawned = 0;
+        model.setWave(waveNumber);
         createWaveEnemies();
     }
 

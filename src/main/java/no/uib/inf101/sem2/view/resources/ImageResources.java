@@ -42,6 +42,7 @@ public class ImageResources {
         images.put("ProjectileIce", loadImageFromResources("Projectiles/ProjectileIce.png"));
         images.put("ProjectileFire", loadImageFromResources("Projectiles/ProjectileFire.png"));
         images.put("ProjectileTree", loadImageFromResources("Projectiles/ProjectileTree.png"));
+        images.put("Explosion", loadImageFromResources("misc/explosion.png"));
     }
 
     /**

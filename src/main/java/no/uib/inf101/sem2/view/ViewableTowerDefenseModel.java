@@ -1,10 +1,13 @@
 package no.uib.inf101.sem2.view;
 
 import no.uib.inf101.sem2.entity.enemy.Enemy;
+import no.uib.inf101.sem2.entity.projectile.Projectile;
+import no.uib.inf101.sem2.entity.projectile.projectileTypes.Explosion;
 import no.uib.inf101.sem2.entity.tower.Tower;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
 import no.uib.inf101.sem2.model.GameState;
+import no.uib.inf101.sem2.screen.ScreenPosition;
 
 import java.util.List;
 
@@ -16,13 +19,6 @@ public interface ViewableTowerDefenseModel {
      * @return the grid dimension
      */
     GridDimension getGridDimension();
-
-    /**
-     * Get the tiles on the board.
-     *
-     * @return the tiles on the board
-     */
-    Iterable<GridCell<Character>> getTilesOnBoard();
 
     /**
      * Get the game state.
@@ -74,6 +70,13 @@ public interface ViewableTowerDefenseModel {
     List<Enemy> getEnemies();
 
     /**
+     * Update the enemies
+     *
+     * @param enemies the new enemies
+     */
+    void setEnemies(List<Enemy> enemies);
+
+    /**
      * Get the current wave.
      *
      * @return the current wave
@@ -88,17 +91,43 @@ public interface ViewableTowerDefenseModel {
     void setWave(int level);
 
     /**
-     * Update the enemies
-     *
-     * @param enemies the new enemies
-     */
-    void updateEnemies(List<Enemy> enemies);
-
-    /**
      * Get the towers
      *
      * @return the towers
      */
     List<Tower> getTowers();
 
+    /**
+     * Get the waypoints
+     *
+     * @return the waypoints
+     */
+    List<ScreenPosition> getWaypoints();
+
+    /**
+     * Set the towers
+     *
+     * @param towers the new towers
+     */
+    void setTowers(List<Tower> towers);
+
+    /**
+     * Get the projectiles
+     *
+     * @return the projectiles
+     */
+    List<Projectile> getProjectiles();
+
+    /**
+     * Set the projectiles
+     * @param projectiles the new projectiles
+     */
+    void setProjectiles(List<Projectile> projectiles);
+
+    /**
+     * Get the explosions
+     *
+     * @return the explosions
+     */
+    List<Explosion> getExplosions();
 }

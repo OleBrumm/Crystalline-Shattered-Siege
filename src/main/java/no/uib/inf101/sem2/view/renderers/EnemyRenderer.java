@@ -1,9 +1,9 @@
 package no.uib.inf101.sem2.view.renderers;
 
 import no.uib.inf101.sem2.entity.enemy.Enemy;
-import no.uib.inf101.sem2.entity.enemy.EnemyBlue;
-import no.uib.inf101.sem2.entity.enemy.EnemyRed;
-import no.uib.inf101.sem2.entity.enemy.EnemyYellow;
+import no.uib.inf101.sem2.entity.enemy.enemyTypes.EnemyBlue;
+import no.uib.inf101.sem2.entity.enemy.enemyTypes.EnemyRed;
+import no.uib.inf101.sem2.entity.enemy.enemyTypes.EnemyYellow;
 import no.uib.inf101.sem2.grid.ScreenPositionToBoundsConverter;
 
 import java.awt.*;

@@ -4,7 +4,10 @@ import no.uib.inf101.sem2.controller.ControllableTowerDefenseModel;
 import no.uib.inf101.sem2.entity.enemy.Enemy;
 import no.uib.inf101.sem2.entity.enemy.Wave;
 import no.uib.inf101.sem2.entity.enemy.Waypoints;
+import no.uib.inf101.sem2.entity.enemy.enemyTypes.EnemyBlue;
+import no.uib.inf101.sem2.entity.enemy.enemyTypes.EnemyRed;
 import no.uib.inf101.sem2.entity.projectile.Projectile;
+import no.uib.inf101.sem2.entity.projectile.projectileTypes.Explosion;
 import no.uib.inf101.sem2.entity.tower.Tower;
 import no.uib.inf101.sem2.grid.CellPosition;
 import no.uib.inf101.sem2.grid.GridCell;
@@ -30,17 +33,17 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     private final TowerDefenseField field;
     private final List<ScreenPosition> waypoints;
     private final Wave waveManager;
+    private final int interval;
+    // IllegalPositionManager
+    private final IllegalPositionManager illegalPositionManager;
     private GameState gameState;
     private int wave;
     private int lives;
     private int gold;
     private List<Enemy> enemies;
     private List<Tower> towers;
-    private ArrayList<Projectile> projectiles;
-    private final int interval;
-
-    // IllegalPositionManager
-    private final IllegalPositionManager illegalPositionManager;
+    private List<Projectile> projectiles;
+    private List<Explosion> explosions;
 
     /**
      * Constructor for TowerDefenseModel.
@@ -52,10 +55,11 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
         this.gameState = GameState.MAIN_MENU;
         this.wave = 1;
         this.lives = 100;
-        this.gold = 800;
+        this.gold = 10000;
         this.enemies = new ArrayList<>();
         this.towers = new ArrayList<>();
         this.projectiles = new ArrayList<>();
+        this.explosions = new ArrayList<>();
         this.interval = 15;
         this.waypoints = new Waypoints(new Rectangle2D.Double(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT), field, 0).getWaypoints();
         this.waveManager = new Wave(this);
@@ -67,122 +71,28 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
 
 
     private void initializeIllegalPositions() {
-        List<CellPosition> illegalPositions = List.of(
-                new CellPosition(0, 0),
-                new CellPosition(0, 1),
-                new CellPosition(0, 2),
-                new CellPosition(0, 3),
-                new CellPosition(0, 4),
-                new CellPosition(0, 5),
-                new CellPosition(0, 6),
-                new CellPosition(0, 7),
-                new CellPosition(0, 8),
-                new CellPosition(0, 9),
-                new CellPosition(0, 10),
-                new CellPosition(1, 0),
-                new CellPosition(1, 1),
-                new CellPosition(1, 2),
-                new CellPosition(1, 3),
-                new CellPosition(1, 4),
-                new CellPosition(1, 5),
-                new CellPosition(1, 6),
-                new CellPosition(1, 7),
-                new CellPosition(1, 8),
-                new CellPosition(1, 9),
-                new CellPosition(2, 0),
-                new CellPosition(2, 1),
-                new CellPosition(2, 2),
-                new CellPosition(2, 3),
-                new CellPosition(2, 4),
-                new CellPosition(2, 5),
-                new CellPosition(2, 6),
-                new CellPosition(2, 7),
-                new CellPosition(2, 8),
-                new CellPosition(2, 9),
-                new CellPosition(3, 0),
-                new CellPosition(3, 1),
-                new CellPosition(3, 2),
-                new CellPosition(3, 3),
-                new CellPosition(3, 4),
-                new CellPosition(3, 5),
-                new CellPosition(3, 6),
-                new CellPosition(3, 7),
-                new CellPosition(3, 8),
-                new CellPosition(3, 9),
-                new CellPosition(4, 0),
-                new CellPosition(4, 1),
-                new CellPosition(4, 2),
-                new CellPosition(5, 0),
-                new CellPosition(5, 1),
-                new CellPosition(5, 2),
-                new CellPosition(6, 0),
-                new CellPosition(7, 2),
-                new CellPosition(7, 3),
-                new CellPosition(7, 9),
-                new CellPosition(8, 8),
-                new CellPosition(8, 9),
-                new CellPosition(8, 10),
-                new CellPosition(9, 7),
-                new CellPosition(9, 8),
-                new CellPosition(9, 9),
-                new CellPosition(9, 10),
-                new CellPosition(10, 7),
-                new CellPosition(10, 8),
-                new CellPosition(10, 9),
-                new CellPosition(10, 10),
-                new CellPosition(11, 7),
-                new CellPosition(11, 8),
-                new CellPosition(11, 9),
-                new CellPosition(11, 10),
-                new CellPosition(2, 13),
-                new CellPosition(3, 13),
-                new CellPosition(3, 12),
-                new CellPosition(8, 15),
-                new CellPosition(7, 15),
-                new CellPosition(6, 15),
-                new CellPosition(7, 14),
-                new CellPosition(8, 14),
-                new CellPosition(10, 0),
-                new CellPosition(10, 1),
-                new CellPosition(10, 2),
-                new CellPosition(9, 2),
-                new CellPosition(8, 2),
-                new CellPosition(8, 3),
-                new CellPosition(8, 4),
-                new CellPosition(8, 5),
-                new CellPosition(8, 6),
-                new CellPosition(7, 6),
-                new CellPosition(6, 6),
-                new CellPosition(6, 5),
-                new CellPosition(6, 4),
-                new CellPosition(6, 3),
-                new CellPosition(5, 3),
-                new CellPosition(4, 3),
-                new CellPosition(4, 4),
-                new CellPosition(4, 5),
-                new CellPosition(4, 6),
-                new CellPosition(4, 7),
-                new CellPosition(4, 8),
-                new CellPosition(4, 9),
-                new CellPosition(5, 9),
-                new CellPosition(5, 10),
-                new CellPosition(5, 11),
-                new CellPosition(6, 11),
-                new CellPosition(6, 12),
-                new CellPosition(6, 13),
-                new CellPosition(6, 14),
-                new CellPosition(5, 14),
-                new CellPosition(4, 14),
-                new CellPosition(3, 14),
-                new CellPosition(2, 14),
-                new CellPosition(1, 14),
-                new CellPosition(1, 13),
-                new CellPosition(1, 12),
-                new CellPosition(1, 11),
-                new CellPosition(0, 11)
-        );
-        for (CellPosition position : illegalPositions) {
-            illegalPositionManager.addIllegalPosition(position);
+        int[][] illegalGrid = {
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0},
+                {1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0},
+                {1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1},
+                {0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1},
+                {0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1},
+                {0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+                {1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+
+        };
+
+        for (int i = 0; i < illegalGrid.length; i++) {
+            for (int j = 0; j < illegalGrid[i].length; j++) {
+                if (illegalGrid[i][j] == 1) {
+                    illegalPositionManager.addIllegalPosition(new CellPosition(i, j));
+                }
+            }
         }
     }
 
@@ -190,11 +100,6 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
 
     @Override
     public GridDimension getGridDimension() {
-        return field;
-    }
-
-    @Override
-    public Iterable<GridCell<Character>> getTilesOnBoard() {
         return field;
     }
 
@@ -238,6 +143,12 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
         return enemies;
     }
 
+
+    @Override
+    public void setEnemies(List<Enemy> enemies) {
+        this.enemies = enemies;
+    }
+
     @Override
     public int getWave() {
         return wave;
@@ -249,11 +160,16 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     }
 
     @Override
-    public void clockTick() {
-        updateGame();
+    public List<Explosion> getExplosions() {
+        return explosions;
     }
 
     // Game state control methods
+
+    @Override
+    public void clockTick() {
+        updateGame();
+    }
 
     @Override
     public void startGame() {
@@ -284,12 +200,12 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
         resetGame();
     }
 
+    // Private helper methods
+
     @Override
     public void exitGame() {
         System.exit(0);
     }
-
-    // Private helper methods
 
     /**
      * Resets the game state to the initial conditions.
@@ -298,9 +214,11 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
         setGold(800);
         setLives(100);
         setWave(1);
-        updateEnemies(new ArrayList<>());
-        updateTowers(new ArrayList<>());
-        updateProjectiles(new ArrayList<>());
+        setEnemies(new ArrayList<>());
+        setTowers(new ArrayList<>());
+        setProjectiles(new ArrayList<>());
+        illegalPositionManager.reset();
+        initializeIllegalPositions();
         waveManager.reset();
     }
 
@@ -310,7 +228,7 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     private void updateGame() {
         moveEnemies();
         updateTowers();
-        updateProjectiles();
+        setProjectiles();
         checkCollisions();
         checkGameOver();
     }
@@ -341,29 +259,113 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
         lives -= enemy.getDamage();
     }
 
+    private void updateTowers() {
+        shootClosestEnemy();
+    }
+
     /**
      * Updates all towers in the game, for example, by finding targets and firing projectiles.
      */
-    private void updateTowers() {
-        // Update towers, e.g., find targets and fire projectiles
+    private void shootClosestEnemy() {
+        for (Tower tower : towers) {
+            tower.incrementTimeSinceLastShot(10);
+            tower.setTarget(enemies);
+            Enemy closestEnemy = tower.getTarget();
+            if (closestEnemy != null && tower.canFire()) {
+                Projectile projectile = tower.fire();
+                if (projectile != null) {
+                    addProjectile(projectile);
+                }
+            }
+        }
     }
 
     /**
      * Updates all projectiles in the game by moving them.
      */
-    private void updateProjectiles() {
+    private void setProjectiles() {
         for (Projectile projectile : projectiles) {
             projectile.move();
         }
     }
 
-    /**
-     * Checks for collisions between projectiles and enemies, and checks if enemies have reached the end of the path.
-     */
     private void checkCollisions() {
-        // Check for collisions between projectiles and enemies
-        // Check if enemies have reached the end of the path
+        List<Enemy> newEnemies = new ArrayList<>();
+        Iterator<Projectile> projectileIterator = projectiles.iterator();
+
+        while (projectileIterator.hasNext()) {
+            Projectile projectile = projectileIterator.next();
+            checkProjectileCollisions(projectile, projectileIterator);
+        }
+
+        // Iterate through enemies and remove dead ones
+        Iterator<Enemy> enemyIterator = enemies.iterator();
+        while (enemyIterator.hasNext()) {
+            Enemy enemy = enemyIterator.next();
+            if (enemy.isDead()) {
+                gold += enemy.getReward();
+                newEnemies.addAll(transformEnemy(enemy));
+                enemyIterator.remove();
+            }
+        }
+
+        enemies.addAll(newEnemies);
     }
+
+    private void checkProjectileCollisions(Projectile projectile, Iterator<Projectile> projectileIterator) {
+        Iterator<Enemy> enemyIterator = enemies.iterator();
+        boolean projectileHit = false;
+
+        while (enemyIterator.hasNext() && !projectileHit) {
+            Enemy enemy = enemyIterator.next();
+            if (projectile.collidesWith(enemy)) {
+                handleCollision(projectile, enemy);
+                projectileHit = true;
+                projectileIterator.remove();
+            }
+        }
+    }
+
+    /**
+     * Decreases the health of an enemy by the damage of a projectile.
+     *
+     * @param projectile The projectile that hit the enemy.
+     * @param enemy      The enemy that was hit.
+     */
+    private void handleCollision(Projectile projectile, Enemy enemy) {
+        enemy.setHealth(enemy.getHealth() - projectile.getDamage());
+        switch (projectile.getEffect()) {
+            case "SLOW", "FREEZE", "POISON" -> enemy.setEffect(projectile.getEffect());
+            case "EXPLOSION" ->
+                    explodePoint(projectile.getX(), projectile.getY(), projectile.getEffectRadius(), projectile.getEffectDamage());
+        }
+    }
+
+    private void explodePoint(double x, double y, int effectRadius, int effectDamage) {
+        explosions.add(new Explosion(x, y, effectRadius, 15));
+        for (Enemy enemy : enemies) {
+            if (enemy.getDistance(x, y) <= effectRadius) {
+                enemy.setHealth(enemy.getHealth() - effectDamage);
+            }
+        }
+    }
+
+    /**
+     * Transforms an enemy into a new lesser enemy when it is killed.
+     */
+    private List<Enemy> transformEnemy(Enemy enemy) {
+        List<Enemy> newEnemies = new ArrayList<>();
+
+        switch (enemy.getType()) {
+            case "BLUE" ->
+                    newEnemies.add(new EnemyRed(enemy.getX(), enemy.getY(), waypoints, enemy.getCurrentWaypointIndex(), enemy.getSpeed()));
+            case "YELLOW" ->
+                    newEnemies.add(new EnemyBlue(enemy.getX(), enemy.getY(), waypoints, enemy.getCurrentWaypointIndex(), enemy.getSpeed()));
+        }
+
+        return newEnemies;
+    }
+
 
     /**
      * Checks if the game is over (i.e., if the player has no lives left) and updates the game state accordingly.
@@ -373,35 +375,6 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
             setGameState(GameState.GAME_OVER_SCREEN);
         }
     }
-
-    /**
-     * Updates the list of enemies in the game.
-     *
-     * @param enemies The new list of enemies.
-     */
-    public void updateEnemies(List<Enemy> enemies) {
-        this.enemies = enemies;
-    }
-
-    /**
-     * Updates the list of projectiles in the game.
-     *
-     * @param projectiles The new list of projectiles.
-     */
-    public void updateProjectiles(ArrayList<Projectile> projectiles) {
-        this.projectiles = projectiles;
-    }
-
-    /**
-     * Updates the list of towers in the game.
-     *
-     * @param towers The new list of towers.
-     */
-    public void updateTowers(List<Tower> towers) {
-        this.towers = towers;
-    }
-
-    // Game logic methods (examples, you can add more based on your requirements)
 
     /**
      * Spawns a new enemy in the game.
@@ -422,10 +395,12 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
             return;
         }
         towers.add(tower);
-        illegalPositionManager.addIllegalPosition(tower.getPosition());
+        illegalPositionManager.addIllegalPosition(tower.getCellPosition());
         setGold(getGold() - tower.getCost());
-        System.out.println("Tower added at " + tower.getPosition());
+        System.out.println("Tower added at " + tower.getCellPosition());
     }
+
+    // Game logic methods (examples, you can add more based on your requirements)
 
     /**
      * Checks if a tower can be placed at a given position.
@@ -437,22 +412,24 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
         return illegalPositionManager.isPositionLegal(position);
     }
 
-    /**
-     * Gets the list of towers in the game.
-     *
-     * @return The list of towers.
-     */
+    @Override
     public List<Tower> getTowers() {
         return towers;
     }
 
-    /**
-     * Gets the list of projectiles in the game.
-     *
-     * @return The list of projectiles.
-     */
+    @Override
+    public void setTowers(List<Tower> towers) {
+        this.towers = towers;
+    }
+
+    @Override
     public List<Projectile> getProjectiles() {
         return projectiles;
+    }
+
+    @Override
+    public void setProjectiles(List<Projectile> projectiles) {
+        this.projectiles = projectiles;
     }
 
     /**
@@ -464,11 +441,7 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
         projectiles.add(projectile);
     }
 
-    /**
-     * Gets the list of waypoints for the enemy path.
-     *
-     * @return The list of waypoints.
-     */
+
     public List<ScreenPosition> getWaypoints() {
         return waypoints;
     }

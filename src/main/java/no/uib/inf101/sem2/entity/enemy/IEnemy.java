@@ -51,14 +51,14 @@ public interface IEnemy {
      *
      * @param x the x coordinate of the enemy
      */
-    void setX(int x);
+    void setX(double x);
 
     /**
      * Sets the y coordinate of the enemy
      *
      * @param y the y coordinate of the enemy
      */
-    void setY(int y);
+    void setY(double y);
 
     /**
      * Returns the position of the enemy
@@ -85,4 +85,46 @@ public interface IEnemy {
      * @param size the size of the enemy
      */
     void setSize(double size);
+
+    /**
+     * Sets the speed of the enemy
+     *
+     * @param speed the speed of the enemy
+     */
+    void setSpeed(double speed);
+
+    /**
+     * Sets the health of the enemy
+     *
+     * @param health the health of the enemy
+     */
+    void setHealth(int health);
+
+    /**
+     * Returns the type of the enemy
+     *
+     * @return the type of the enemy
+     */
+    String getType();
+
+    /**
+     * Returns the current waypoint index of the enemy
+     *
+     * @return the current waypoint index of the enemy
+     */
+    int getCurrentWaypointIndex();
+
+    /**
+     * Returns the effect of the enemy
+     *
+     * @return the effect of the enemy
+     */
+    String getEffect();
+
+    /**
+     * Sets the effect of the enemy
+     *
+     * @param effect the effect of the enemy
+     */
+    void setEffect(String effect);
 }

@@ -1,5 +1,10 @@
 package no.uib.inf101.sem2.entity.tower;
 
+import no.uib.inf101.sem2.entity.enemy.Enemy;
+import no.uib.inf101.sem2.entity.projectile.Projectile;
+
+import java.util.List;
+
 public interface ITower {
 
     /**
@@ -37,12 +42,6 @@ public interface ITower {
      */
     int getCost();
 
-    /**
-     * Sets the cost of the tower
-     *
-     * @param cost the cost of the tower
-     */
-    void setCost(int cost);
 
     /**
      * Returns the level of the tower
@@ -76,4 +75,32 @@ public interface ITower {
      * Upgrades the tower
      */
     void upgrade();
+
+    /**
+     * Fires a projectile
+     *
+     * @return the projectile
+     */
+    Projectile fire();
+
+    /**
+     * Returns the target of the tower
+     * @return the target of the tower
+     */
+    Enemy getTarget();
+
+    /**
+     * Sets the target of the tower based on the enemies
+     * The target is the enemy that is closest the tower
+     *
+     * @param enemies the target of the tower
+     */
+    void setTarget(List<Enemy> enemies);
+
+    /**
+     * Returns the fire rate of the tower
+     *
+     * @return the fire rate of the tower
+     */
+    double getFireRate();
 }

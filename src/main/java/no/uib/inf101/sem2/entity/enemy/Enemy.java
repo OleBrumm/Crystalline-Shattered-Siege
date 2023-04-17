@@ -6,8 +6,7 @@ import java.util.List;
 
 public class Enemy implements IEnemy {
 
-    public double x;
-    public double y;
+    public double x, y;
     public double speed;
     public int health;
     public int reward;
@@ -15,8 +14,10 @@ public class Enemy implements IEnemy {
     public double size;
     public int currentWaypointIndex;
     public List<ScreenPosition> waypoints;
+    private final String type;
+    private String effect;
 
-    public Enemy(double x, double y, double speed, int health, int reward, int damage, double size, List<ScreenPosition> waypoints) {
+    public Enemy(double x, double y, double speed, int health, int reward, int damage, double size, List<ScreenPosition> waypoints, String type, int currentWaypointIndex) {
         this.x = x;
         this.y = y;
         this.speed = speed;
@@ -24,8 +25,10 @@ public class Enemy implements IEnemy {
         this.reward = reward;
         this.damage = damage;
         this.size = size;
-        this.currentWaypointIndex = 0;
+        this.currentWaypointIndex = currentWaypointIndex;
         this.waypoints = waypoints;
+        this.type = type;
+        this.effect = "NONE";
     }
 
     @Override
@@ -34,8 +37,18 @@ public class Enemy implements IEnemy {
     }
 
     @Override
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    @Override
     public int getHealth() {
         return health;
+    }
+
+    @Override
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     @Override
@@ -54,7 +67,7 @@ public class Enemy implements IEnemy {
     }
 
     @Override
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
@@ -64,7 +77,7 @@ public class Enemy implements IEnemy {
     }
 
     @Override
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 
@@ -76,6 +89,33 @@ public class Enemy implements IEnemy {
     @Override
     public void setSize(double size) {
         this.size = size;
+    }
+
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    @Override
+    public int getCurrentWaypointIndex() {
+        return currentWaypointIndex;
+    }
+
+    @Override
+    public String getEffect() {
+        return effect;
+    }
+
+    @Override
+    public void setEffect(String effect) {
+        this.effect = effect;
+        applyEffect(effect);
+    }
+
+    private void applyEffect(String effect) {
+        if (effect.equals("SLOW")) {
+            setSpeed(speed / 3);
+        }
     }
 
     @Override
@@ -127,4 +167,11 @@ public class Enemy implements IEnemy {
         updatePosition();
     }
 
+    public boolean isDead() {
+        return health <= 0;
+    }
+
+    public double getDistance(double x, double y) {
+        return Math.sqrt(Math.pow(this.x - x, 2) + Math.pow(this.y - y, 2));
+    }
 }

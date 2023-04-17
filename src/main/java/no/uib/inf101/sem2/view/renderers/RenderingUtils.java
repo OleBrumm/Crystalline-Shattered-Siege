@@ -2,6 +2,7 @@ package no.uib.inf101.sem2.view.renderers;
 
 import no.uib.inf101.sem2.grid.CellPositionToPixelConverter;
 import no.uib.inf101.sem2.grid.GridCell;
+import no.uib.inf101.sem2.screen.ScreenPosition;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -61,5 +62,10 @@ public class RenderingUtils {
         graphics2D.draw(cellRectangle);
         graphics2D.setColor(backgroundColor);
         graphics2D.fill(cellRectangle);
+    }
+
+    public static void drawCircle(Graphics2D graphics2D, ScreenPosition center, int radius, Color color) {
+        graphics2D.setColor(color);
+        graphics2D.fillOval((int) (center.x() - radius), (int) (center.y() - radius), radius * 2, radius * 2);
     }
 }

@@ -30,4 +30,8 @@ public class IllegalPositionManager {
     public boolean isPositionLegal(CellPosition position) {
         return !illegalPositions.contains(position);
     }
+
+    public void reset() {
+        illegalPositions.clear();
+    }
 }

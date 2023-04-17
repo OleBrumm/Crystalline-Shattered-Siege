@@ -2,7 +2,6 @@ package no.uib.inf101.sem2.controller;
 
 import no.uib.inf101.sem2.view.views.GameRenderer;
 
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -10,11 +9,10 @@ import java.awt.event.MouseMotionListener;
 public class TowerDefenseMouseListener implements MouseListener, MouseMotionListener {
 
     private final TowerDefenseController controller;
-    private final GameRenderer renderer;
 
     public TowerDefenseMouseListener(TowerDefenseController controller) {
         this.controller = controller;
-        this.renderer = controller.view.getGameRenderer();
+        GameRenderer renderer = controller.view.getGameRenderer();
     }
 
     @Override
@@ -24,13 +22,7 @@ public class TowerDefenseMouseListener implements MouseListener, MouseMotionList
 
     @Override
     public void mousePressed(MouseEvent e) {
-        Point clickPoint = new Point(e.getX(), e.getY());
-        String towerType = renderer.getTowerTypeForPoint(clickPoint);
-        if (towerType != null) {
-            controller.setSelectedTowerType(towerType);
-        }
-        System.out.println("Mouse pressed at " + clickPoint);
-        System.out.println("Tower type: " + towerType);
+        controller.handleMousePressed(e);
     }
 
     @Override

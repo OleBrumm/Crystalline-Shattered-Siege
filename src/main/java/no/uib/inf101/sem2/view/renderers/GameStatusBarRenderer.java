@@ -157,11 +157,19 @@ public class GameStatusBarRenderer {
         towerImages.add(this.towerImages.get("TowerTree"));
         towerImages.add(this.towerImages.get("TowerIce"));
 
+        // Get the tower prices
+        List<String> towerPrices = new ArrayList<>();
+        towerPrices.add("1200");
+        towerPrices.add("250");
+        towerPrices.add("425");
+        String shopText = towerPrices.get(0) + "        " + towerPrices.get(1) + "          " + towerPrices.get(2);
+
+
         RenderingUtils.drawImageCells(graphics2D, shopField, converter, towerImages);
 
         graphics2D.setColor(Color.YELLOW);
         graphics2D.setFont(new Font("Helvetica", Font.BOLD, 30));
-        Inf101Graphics.drawCenteredString(graphics2D, "350          200          250", shopTextRectangle);
+        Inf101Graphics.drawCenteredString(graphics2D, shopText, shopTextRectangle);
 
     }
 }

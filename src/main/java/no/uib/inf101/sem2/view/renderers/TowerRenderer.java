@@ -23,7 +23,7 @@ public class TowerRenderer {
     }
 
     private void drawTower(Graphics2D graphics2D, Tower tower, CellPositionToPixelConverter converter) {
-        Rectangle2D towerRectangle = converter.getBoundsForCell(tower.getPosition());
+        Rectangle2D towerRectangle = converter.getBoundsForCell(tower.getCellPosition());
         Image towerImage = getTowerImage(tower);
         RenderingUtils.drawImageRectangle(graphics2D, towerRectangle, towerImage);
     }
@@ -35,7 +35,7 @@ public class TowerRenderer {
      * @return the image for the given tower
      */
     private Image getTowerImage(Tower tower) {
-        return switch (tower.type) {
+        return switch (tower.getType()) {
             case "TREE" -> towerImages.get("TowerTree");
             case "ICE" -> towerImages.get("TowerIce");
             case "FIRE" -> towerImages.get("TowerFire");

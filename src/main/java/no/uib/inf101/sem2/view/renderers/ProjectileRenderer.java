@@ -1,9 +1,9 @@
 package no.uib.inf101.sem2.view.renderers;
 
 import no.uib.inf101.sem2.entity.projectile.Projectile;
-import no.uib.inf101.sem2.entity.projectile.ProjectileApple;
-import no.uib.inf101.sem2.entity.projectile.ProjectileFire;
-import no.uib.inf101.sem2.entity.projectile.ProjectileIce;
+import no.uib.inf101.sem2.entity.projectile.projectileTypes.ProjectileApple;
+import no.uib.inf101.sem2.entity.projectile.projectileTypes.ProjectileFire;
+import no.uib.inf101.sem2.entity.projectile.projectileTypes.ProjectileIce;
 import no.uib.inf101.sem2.screen.ScreenPosition;
 import no.uib.inf101.sem2.screen.ScreenPositionProjectileBounds;
 
@@ -27,7 +27,7 @@ public class ProjectileRenderer {
     }
 
     private void drawProjectile(Graphics2D graphics2D, Projectile projectile) {
-        int projectileSize = 40;
+        int projectileSize = projectile.getSize();
         Rectangle2D projectileRectangle = new ScreenPositionProjectileBounds().getBounds(new ScreenPosition(projectile.getX(), projectile.getY()), projectileSize);
         Image projectileImage = getProjectileImage(projectile);
 
@@ -38,10 +38,6 @@ public class ProjectileRenderer {
         double centerX = projectileRectangle.getCenterX();
         double centerY = projectileRectangle.getCenterY();
         graphics2D.translate(centerX, centerY);
-
-        // Rotate the Graphics2D object by the projectile's direction (in radians)
-        double dirRadians = Math.toRadians(projectile.getDir());
-        graphics2D.rotate(dirRadians);
 
         // Draw the projectile image centered around the new origin
         int halfWidth = projectileSize / 2;
@@ -61,7 +57,7 @@ public class ProjectileRenderer {
      */
     private Image getProjectileImage(Projectile projectile) {
         if (projectile instanceof ProjectileApple) {
-            return projectileImages.get("ProjectileApple");
+            return projectileImages.get("ProjectileTree");
         } else if (projectile instanceof ProjectileFire) {
             return projectileImages.get("ProjectileFire");
         } else if (projectile instanceof ProjectileIce) {

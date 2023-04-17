@@ -5,6 +5,7 @@ import no.uib.inf101.sem2.grid.CellPosition;
 import no.uib.inf101.sem2.grid.CellPositionToPixelConverter;
 import no.uib.inf101.sem2.grid.ScreenPositionToBoundsConverter;
 import no.uib.inf101.sem2.model.TowerDefenseModel;
+import no.uib.inf101.sem2.screen.ScreenPosition;
 import no.uib.inf101.sem2.view.backgrounds.BackgroundImages;
 import no.uib.inf101.sem2.view.renderers.*;
 import no.uib.inf101.sem2.view.resources.ImageResources;
@@ -27,6 +28,14 @@ public class GameRenderer {
     // Variables to support dragging of towers
     private Tower draggedTower = null;
     private Point draggedTowerPosition = null;
+    // Converter to convert screen positions to bounds of the game board
+    ScreenPositionToBoundsConverter screenPositionConverter;
+
+    // Draw the background
+    Rectangle2D gameRectangle;
+
+    // Draw the grid lines on the game board
+    CellPositionToPixelConverter cellPositionConverter;
 
     public GameRenderer(TowerDefenseModel model, BackgroundImages backgroundImages, ImageResources imageResources, int screenWidth, int screenHeight) {
         this.model = model;
@@ -34,11 +43,12 @@ public class GameRenderer {
         this.imageResources = imageResources;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        Map<String, Image> towerImages = new HashMap<>();
-
-        towerImages.put("TowerTree", imageResources.getImage("TowerTree"));
-        towerImages.put("TowerIce", imageResources.getImage("TowerIce"));
-        towerImages.put("TowerFire", imageResources.getImage("TowerFire"));
+        this.screenPositionConverter = new ScreenPositionToBoundsConverter();
+        this.gameRectangle = new Rectangle2D.Double(0,
+                0,
+                screenWidth,
+                8 * (double) screenHeight / 10);
+        this.cellPositionConverter = new CellPositionToPixelConverter(gameRectangle, model.getGridDimension(), 0);
 
         this.shopButtonBounds = new HashMap<>();
 
@@ -51,20 +61,8 @@ public class GameRenderer {
      */
     public void drawGame(Graphics2D graphics2D) {
 
-        // Draw the background
-        Rectangle2D gameRectangle =
-                new Rectangle2D.Double(0,
-                        0,
-                        screenWidth,
-                        8 * (double) screenHeight / 10);
+
         RenderingUtils.drawImageRectangle(graphics2D, gameRectangle, backgroundImages.gameplayBgWithPathImage);
-
-        // Converter to convert screen positions to bounds of the game board
-        ScreenPositionToBoundsConverter screenPositionConverter = new ScreenPositionToBoundsConverter();
-
-        // Draw the grid lines on the game board
-        CellPositionToPixelConverter cellPositionConverter = new CellPositionToPixelConverter(gameRectangle, model.getGridDimension(), 0);
-        RenderingUtils.drawCells(graphics2D, model.getTilesOnBoard(), cellPositionConverter, new Color(0, 0, 0, 0));
 
         // Add the enemy images to a map
         Map<String, Image> enemyImages = new HashMap<>();
@@ -106,6 +104,14 @@ public class GameRenderer {
         // Draw the game status bar
         GameStatusBarRenderer gameStatusBarRenderer = new GameStatusBarRenderer(screenWidth, screenHeight, backgroundImages.gameStatusBarBgImage, towerImages, iconImages, model);
         gameStatusBarRenderer.drawGameStatusBar(graphics2D);
+
+        // Add the explosion image to a map
+        Map<String, Image> explosionImages = new HashMap<>();
+        explosionImages.put("Explosion", imageResources.getImage("Explosion"));
+
+        // Draw the explosions
+        ExplosionRenderer explosionRenderer = new ExplosionRenderer(explosionImages);
+        explosionRenderer.drawExplosions(graphics2D, model.getExplosions());
 
         // Draw the dragged tower if there is one
         if (draggedTower != null && draggedTowerPosition != null) {
@@ -167,7 +173,7 @@ public class GameRenderer {
      * @param position the position of the dragged tower
      */
     public void drawDraggedTower(Graphics2D graphics2D, Tower tower, Point position) {
-        Image towerImage = getTowerImage(tower.type);
+        Image towerImage = getTowerImage(tower.getType());
         if (towerImage != null) {
             CellPosition closestCell = getClosestCell(position);
             double cellWidth = (double) screenWidth / model.getGridDimension().cols();
@@ -175,6 +181,7 @@ public class GameRenderer {
             int x = (int) (closestCell.col() * cellWidth);
             int y = (int) (closestCell.row() * cellHeight);
             if (isPointInGameRectangle(position)) {
+                drawDraggedTowerRadius(graphics2D, closestCell, tower.getRange());
                 if (model.isTowerPlacementValid(closestCell)) {
                     RenderingUtils.drawImageRectangle(graphics2D, new Rectangle2D.Double(x, y, cellWidth, cellHeight), towerImage);
                 } else {
@@ -182,6 +189,11 @@ public class GameRenderer {
                 }
             }
         }
+    }
+
+    private void drawDraggedTowerRadius(Graphics2D graphics2D, CellPosition closestCell, int range) {
+        ScreenPosition center = cellPositionConverter.getCenterForCell(closestCell);
+        RenderingUtils.drawCircle(graphics2D, center, range, new Color(0, 0, 0, 100));
     }
 
     /**
@@ -222,6 +234,10 @@ public class GameRenderer {
             case "FIRE" -> imageResources.getImage("TowerFire");
             default -> throw new IllegalStateException("Unexpected value: " + type);
         };
+    }
+
+    public CellPositionToPixelConverter getCellPositionConverter() {
+        return cellPositionConverter;
     }
 
 }
