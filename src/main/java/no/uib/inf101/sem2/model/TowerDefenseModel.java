@@ -28,7 +28,7 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     private final int WINDOW_WIDTH = 800;
     private final int WINDOW_HEIGHT = 480;
 
-    private Rectangle2D gameRectangle = new Rectangle2D.Double(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    private final Rectangle2D gameRectangle = new Rectangle2D.Double(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     // Fields
     private final TowerDefenseField field;
@@ -46,7 +46,7 @@ public class TowerDefenseModel implements ViewableTowerDefenseModel, Controllabl
     private List<Tower> towers;
     private List<Projectile> projectiles;
 
-    private CellPositionToPixelConverter converter;
+    private final CellPositionToPixelConverter converter;
 
     /**
      * Constructor for TowerDefenseModel.

@@ -35,34 +35,6 @@ public class ImageButton extends JButton {
         Font buttonFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
         setFont(buttonFont.deriveFont(40f));
         setText(text);
-        /**addActionListener(actionListener);
-
-        // Add mouse listeners to track when the user interacts with the button
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                isMouseOver = true;
-                repaint();
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                isMouseOver = false;
-                repaint();
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                isMousePressed = true;
-                repaint();
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                isMousePressed = false;
-                repaint();
-            }
-        }); */
     }
 
     @Override

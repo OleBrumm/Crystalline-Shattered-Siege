@@ -45,10 +45,6 @@ public class Projectile implements IProjectile {
         this.y = y;
     }
 
-    public double getDir() {
-        return dir;
-    }
-
     @Override
     public int getSize() {
         return size;
