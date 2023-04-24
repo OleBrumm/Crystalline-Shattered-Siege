@@ -8,7 +8,7 @@ For å installere og kjøre spillet, følg instruksjonene nedenfor:
 
 1. Klone repositoriet til din lokale maskin:
 ```
-git clone https://github.com/yourusername/tower-defense.git
+git clone https://git.app.uib.no/Ditt.Brukernavn/sem2.git
 ```
 
 2. Åpne prosjektet i din foretrukne Java IDE (f.eks., IntelliJ IDEA eller Eclipse).
