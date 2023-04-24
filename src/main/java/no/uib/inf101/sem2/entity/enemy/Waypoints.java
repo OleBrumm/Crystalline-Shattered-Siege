@@ -1,7 +1,7 @@
 package no.uib.inf101.sem2.entity.enemy;
 
 import no.uib.inf101.sem2.grid.CellPosition;
-import no.uib.inf101.sem2.grid.CellPositionToPixelConverter;
+import no.uib.inf101.sem2.grid.converter.CellPositionToPixelConverter;
 import no.uib.inf101.sem2.grid.GridDimension;
 import no.uib.inf101.sem2.screen.ScreenPosition;
 

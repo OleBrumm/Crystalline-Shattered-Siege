@@ -1,8 +1,9 @@
 package no.uib.inf101.sem2.view.renderers;
 
-import no.uib.inf101.sem2.grid.CellPositionToPixelConverter;
+import no.uib.inf101.sem2.grid.converter.CellPositionToPixelConverter;
 import no.uib.inf101.sem2.model.TowerDefenseField;
 import no.uib.inf101.sem2.model.TowerDefenseModel;
+import no.uib.inf101.sem2.util.RenderingUtils;
 import no.uib.inf101.sem2.view.Inf101Graphics;
 
 import java.awt.*;

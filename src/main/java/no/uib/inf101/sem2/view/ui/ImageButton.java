@@ -1,10 +1,7 @@
-package no.uib.inf101.sem2.view;
+package no.uib.inf101.sem2.view.ui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.io.IOException;
@@ -22,13 +19,12 @@ public class ImageButton extends JButton {
     /**
      * Creates a new ImageButton with the given image, text, and ActionListener.
      *
-     * @param buttonImage    the image to use as the background of the button
-     * @param text           the text to display on the button
-     * @param actionListener the ActionListener to be invoked when the button is clicked
+     * @param buttonImage the image to use as the background of the button
+     * @param text        the text to display on the button
      * @throws IOException         if there is an error reading the font file
      * @throws FontFormatException if there is an error creating the font
      */
-    public ImageButton(Image buttonImage, String text, ActionListener actionListener) throws IOException, FontFormatException {
+    public ImageButton(Image buttonImage, String text) throws IOException, FontFormatException {
         this.buttonImage = buttonImage;
         setOpaque(false);
         setContentAreaFilled(false);
@@ -39,7 +35,7 @@ public class ImageButton extends JButton {
         Font buttonFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
         setFont(buttonFont.deriveFont(40f));
         setText(text);
-        addActionListener(actionListener);
+        /**addActionListener(actionListener);
 
         // Add mouse listeners to track when the user interacts with the button
         addMouseListener(new MouseAdapter() {
@@ -66,7 +62,7 @@ public class ImageButton extends JButton {
                 isMousePressed = false;
                 repaint();
             }
-        });
+        }); */
     }
 
     @Override

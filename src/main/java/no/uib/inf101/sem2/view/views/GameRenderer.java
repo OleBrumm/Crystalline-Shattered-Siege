@@ -2,11 +2,11 @@ package no.uib.inf101.sem2.view.views;
 
 import no.uib.inf101.sem2.entity.tower.Tower;
 import no.uib.inf101.sem2.grid.CellPosition;
-import no.uib.inf101.sem2.grid.CellPositionToPixelConverter;
-import no.uib.inf101.sem2.grid.ScreenPositionToBoundsConverter;
+import no.uib.inf101.sem2.grid.converter.CellPositionToPixelConverter;
+import no.uib.inf101.sem2.grid.converter.ScreenPositionToBoundsConverter;
 import no.uib.inf101.sem2.model.TowerDefenseModel;
 import no.uib.inf101.sem2.screen.ScreenPosition;
-import no.uib.inf101.sem2.view.backgrounds.BackgroundImages;
+import no.uib.inf101.sem2.util.RenderingUtils;
 import no.uib.inf101.sem2.view.renderers.*;
 import no.uib.inf101.sem2.view.resources.ImageResources;
 
@@ -18,7 +18,6 @@ import java.util.Map;
 public class GameRenderer {
 
     private final TowerDefenseModel model;
-    private final BackgroundImages backgroundImages;
     private final ImageResources imageResources;
     private final int screenWidth;
     private final int screenHeight;
@@ -37,9 +36,8 @@ public class GameRenderer {
     // Draw the grid lines on the game board
     CellPositionToPixelConverter cellPositionConverter;
 
-    public GameRenderer(TowerDefenseModel model, BackgroundImages backgroundImages, ImageResources imageResources, int screenWidth, int screenHeight) {
+    public GameRenderer(TowerDefenseModel model, ImageResources imageResources, int screenWidth, int screenHeight) {
         this.model = model;
-        this.backgroundImages = backgroundImages;
         this.imageResources = imageResources;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -62,13 +60,16 @@ public class GameRenderer {
     public void drawGame(Graphics2D graphics2D) {
 
 
-        RenderingUtils.drawImageRectangle(graphics2D, gameRectangle, backgroundImages.gameplayBgWithPathImage);
+        RenderingUtils.drawImageRectangle(graphics2D, gameRectangle, imageResources.getImage("GameplayBG"));
 
         // Add the enemy images to a map
         Map<String, Image> enemyImages = new HashMap<>();
         enemyImages.put("EnemyRed", imageResources.getImage("EnemyRed"));
         enemyImages.put("EnemyBlue", imageResources.getImage("EnemyBlue"));
         enemyImages.put("EnemyYellow", imageResources.getImage("EnemyYellow"));
+        enemyImages.put("EnemyGreen", imageResources.getImage("EnemyGreen"));
+        enemyImages.put("EnemyPurple", imageResources.getImage("EnemyPurple"));
+        enemyImages.put("EnemyBoss", imageResources.getImage("EnemyBoss"));
 
         // Draw the enemies
         EnemyRenderer enemyRenderer = new EnemyRenderer(enemyImages);
@@ -102,7 +103,7 @@ public class GameRenderer {
         iconImages.put("WaveIcon", imageResources.getImage("WaveIcon"));
 
         // Draw the game status bar
-        GameStatusBarRenderer gameStatusBarRenderer = new GameStatusBarRenderer(screenWidth, screenHeight, backgroundImages.gameStatusBarBgImage, towerImages, iconImages, model);
+        GameStatusBarRenderer gameStatusBarRenderer = new GameStatusBarRenderer(screenWidth, screenHeight, imageResources.getImage("GameStatusBarBG"), towerImages, iconImages, model);
         gameStatusBarRenderer.drawGameStatusBar(graphics2D);
 
         // Add the explosion image to a map
@@ -178,8 +179,8 @@ public class GameRenderer {
             CellPosition closestCell = getClosestCell(position);
             double cellWidth = (double) screenWidth / model.getGridDimension().cols();
             double cellHeight = (double) screenHeight * 0.8 / model.getGridDimension().rows();
-            int x = (int) (closestCell.col() * cellWidth);
-            int y = (int) (closestCell.row() * cellHeight);
+            int x = (int) (closestCell.row() * cellWidth);
+            int y = (int) (closestCell.col() * cellHeight);
             if (isPointInGameRectangle(position)) {
                 drawDraggedTowerRadius(graphics2D, closestCell, tower.getRange());
                 if (model.isTowerPlacementValid(closestCell)) {

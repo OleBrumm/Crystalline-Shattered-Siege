@@ -33,6 +33,9 @@ public class ImageResources {
         images.put("EnemyRed", loadImageFromResources("Enemies/EnemyRed.png"));
         images.put("EnemyBlue", loadImageFromResources("Enemies/EnemyBlue.png"));
         images.put("EnemyYellow", loadImageFromResources("Enemies/EnemyYellow.png"));
+        images.put("EnemyGreen", loadImageFromResources("Enemies/EnemyGreen.png"));
+        images.put("EnemyPurple", loadImageFromResources("Enemies/EnemyPurple.png"));
+        images.put("EnemyBoss", loadImageFromResources("Enemies/EnemyBoss.png"));
         images.put("TowerIce", loadImageFromResources("Towers/TowerIce.png"));
         images.put("TowerFire", loadImageFromResources("Towers/TowerFire.png"));
         images.put("TowerTree", loadImageFromResources("Towers/TowerTree.png"));
@@ -43,6 +46,10 @@ public class ImageResources {
         images.put("ProjectileFire", loadImageFromResources("Projectiles/ProjectileFire.png"));
         images.put("ProjectileTree", loadImageFromResources("Projectiles/ProjectileTree.png"));
         images.put("Explosion", loadImageFromResources("misc/explosion.png"));
+        images.put("MainMenuBG", loadImageFromResources("backgrounds/main-menu-bg.png"));
+        images.put("PausedBG", loadImageFromResources("backgrounds/paused-bg.png"));
+        images.put("GameplayBG", loadImageFromResources("backgrounds/gameplay-bg-withpath.png"));
+        images.put("GameStatusBarBG", loadImageFromResources("backgrounds/tilable-bg.png"));
     }
 
     /**

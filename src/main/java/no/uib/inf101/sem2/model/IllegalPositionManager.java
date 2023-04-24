@@ -10,6 +10,7 @@ public class IllegalPositionManager {
 
     public IllegalPositionManager() {
         this.illegalPositions = new HashSet<>();
+        initializeIllegalPositions();
     }
 
     /**
@@ -21,6 +22,31 @@ public class IllegalPositionManager {
         illegalPositions.add(position);
     }
 
+    private void initializeIllegalPositions(){
+        int[][] illegalGrid = {
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0},
+                {1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0},
+                {1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1},
+                {0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1},
+                {0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1},
+                {0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+                {1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0}
+        };
+
+        for (int row = 0; row < illegalGrid.length; row++) {
+            for (int col = 0; col < illegalGrid[row].length; col++) {
+                if (illegalGrid[row][col] == 1) {
+                    illegalPositions.add(new CellPosition(row, col));
+                }
+            }
+        }
+    }
+
     /**
      * Checks if the given position is legal.
      *
@@ -28,7 +54,12 @@ public class IllegalPositionManager {
      * @return true if the position is legal, false otherwise
      */
     public boolean isPositionLegal(CellPosition position) {
-        return !illegalPositions.contains(position);
+        System.out.println("Position: " + position);
+        boolean isNotIllegal = !illegalPositions.contains(position);
+        boolean isWithinBounds = position.row() >= 0 && position.row() < 16 && position.col() >= 0 && position.col() < 12;
+        System.out.println("isNotIllegal: " + isNotIllegal);
+        System.out.println("isWithinBounds: " + isWithinBounds);
+        return isNotIllegal && isWithinBounds;
     }
 
     public void reset() {

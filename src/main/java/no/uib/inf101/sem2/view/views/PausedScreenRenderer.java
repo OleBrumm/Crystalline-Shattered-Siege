@@ -1,7 +1,7 @@
 package no.uib.inf101.sem2.view.views;
 
-import no.uib.inf101.sem2.view.backgrounds.BackgroundImages;
-import no.uib.inf101.sem2.view.renderers.RenderingUtils;
+import no.uib.inf101.sem2.util.RenderingUtils;
+import no.uib.inf101.sem2.view.resources.ImageResources;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -9,12 +9,12 @@ import java.awt.geom.Rectangle2D;
 import static no.uib.inf101.sem2.view.Inf101Graphics.drawCenteredString;
 
 public class PausedScreenRenderer {
-    BackgroundImages backgroundImages;
+    ImageResources imageResources;
     Font titleFont;
     int screenWidth, screenHeight;
 
-    public PausedScreenRenderer(BackgroundImages backgroundImages, Font titleFont, int screenWidth, int screenHeight) {
-        this.backgroundImages = backgroundImages;
+    public PausedScreenRenderer(ImageResources imageResources, Font titleFont, int screenWidth, int screenHeight) {
+        this.imageResources = imageResources;
         this.titleFont = titleFont;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -27,7 +27,7 @@ public class PausedScreenRenderer {
      */
     public void drawPauseScreen(Graphics2D graphics2D) {
         // Draw background
-        RenderingUtils.drawImageRectangle(graphics2D, new Rectangle2D.Double(0, 0, screenWidth, screenHeight + 100), backgroundImages.pausedBgImage);
+        RenderingUtils.drawImageRectangle(graphics2D, new Rectangle2D.Double(0, 0, screenWidth, screenHeight + 100), imageResources.getImage("PausedBG"));
 
         // Draw title
         graphics2D.setFont(titleFont.deriveFont(100f));

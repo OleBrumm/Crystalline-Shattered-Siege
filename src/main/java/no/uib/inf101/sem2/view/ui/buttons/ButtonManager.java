@@ -1,7 +1,7 @@
-package no.uib.inf101.sem2.view.buttons;
+package no.uib.inf101.sem2.view.ui.buttons;
 
 import no.uib.inf101.sem2.model.GameState;
-import no.uib.inf101.sem2.view.ImageButton;
+import no.uib.inf101.sem2.view.ui.ImageButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,12 +24,12 @@ public class ButtonManager extends JPanel {
      * @throws FontFormatException If the font file cannot be found
      */
     public ButtonManager(Image buttonImage) throws IOException, FontFormatException {
-        startButton = new ImageButton(buttonImage, "Start", null);
-        restartButton = new ImageButton(buttonImage, "Restart", null);
-        pauseButton = new ImageButton(buttonImage, "Pause", null);
-        resumeButton = new ImageButton(buttonImage, "Resume", null);
-        mainMenuButton = new ImageButton(buttonImage, "Main Menu", null);
-        exitButton = new ImageButton(buttonImage, "Exit", null);
+        startButton = new ImageButton(buttonImage, "Start");
+        restartButton = new ImageButton(buttonImage, "Restart");
+        pauseButton = new ImageButton(buttonImage, "Pause");
+        resumeButton = new ImageButton(buttonImage, "Resume");
+        mainMenuButton = new ImageButton(buttonImage, "Main Menu");
+        exitButton = new ImageButton(buttonImage, "Exit");
 
         this.setLayout(null); // Set layout to null so that you can position the buttons using setBounds
         this.setOpaque(false); // Set this to false so that the ButtonManager background is transparent
@@ -47,6 +47,7 @@ public class ButtonManager extends JPanel {
      * @param gameState The current game state
      */
     public void updateButtonVisibility(GameState gameState) {
+        System.out.println("Updating button visibility");
         startButton.setVisible(false);
         restartButton.setVisible(false);
         pauseButton.setVisible(false);

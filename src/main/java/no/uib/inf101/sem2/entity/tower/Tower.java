@@ -2,11 +2,11 @@ package no.uib.inf101.sem2.entity.tower;
 
 import no.uib.inf101.sem2.entity.enemy.Enemy;
 import no.uib.inf101.sem2.entity.projectile.Projectile;
-import no.uib.inf101.sem2.entity.projectile.projectileTypes.ProjectileApple;
-import no.uib.inf101.sem2.entity.projectile.projectileTypes.ProjectileFire;
-import no.uib.inf101.sem2.entity.projectile.projectileTypes.ProjectileIce;
+import no.uib.inf101.sem2.entity.projectile.projectiletypes.ProjectileApple;
+import no.uib.inf101.sem2.entity.projectile.projectiletypes.ProjectileFire;
+import no.uib.inf101.sem2.entity.projectile.projectiletypes.ProjectileIce;
 import no.uib.inf101.sem2.grid.CellPosition;
-import no.uib.inf101.sem2.grid.CellPositionToPixelConverter;
+import no.uib.inf101.sem2.grid.converter.CellPositionToPixelConverter;
 import no.uib.inf101.sem2.screen.ScreenPosition;
 
 import java.util.List;
@@ -17,7 +17,6 @@ public class Tower implements ITower {
     private int range;
     private final int cost;
     private int level;
-    private int upgradeCost;
     private int x, y;
     private final String type;
     public Enemy target;
@@ -25,13 +24,12 @@ public class Tower implements ITower {
     private final double fireRate;
     private double timeSinceLastShot;
 
-    public Tower(int x, int y, int damage, int range, int fireRate, int cost, int upgradeCost, String type, CellPositionToPixelConverter converter) {
+    public Tower(int x, int y, int damage, int range, int fireRate, int cost, String type, CellPositionToPixelConverter converter) {
         this.x = x;
         this.y = y;
         this.damage = damage;
         this.range = range;
         this.cost = cost;
-        this.upgradeCost = upgradeCost;
         this.type = type;
         this.target = null;
         this.converter = converter;
@@ -75,23 +73,6 @@ public class Tower implements ITower {
         this.level = level;
     }
 
-    @Override
-    public int getUpgradeCost() {
-        return this.upgradeCost;
-    }
-
-    @Override
-    public void setUpgradeCost(int upgradeCost) {
-        this.upgradeCost = upgradeCost;
-    }
-
-    @Override
-    public void upgrade() {
-        setLevel(getLevel() + 1);
-        setDamage(getDamage() + 1);
-        setRange(getRange() + 20);
-        setUpgradeCost(getUpgradeCost() + 100);
-    }
 
     public String getType() {
         return this.type;
@@ -105,8 +86,8 @@ public class Tower implements ITower {
     }
 
     public void setPosition(CellPosition pos) {
-        this.y = pos.col();
-        this.x = pos.row();
+        this.y = pos.row();
+        this.x = pos.col();
     }
 
     public void setTarget(List<Enemy> enemies) {
@@ -129,10 +110,11 @@ public class Tower implements ITower {
     public Projectile fire() {
         if (canFire()){
             resetTimeSinceLastShot();
+            System.out.println("Firing at " + target + " at " + target.getPosition());
             double direction = Math.toDegrees(Math.atan2(target.getPosition().y() - getScreenPosition().y(), target.getPosition().x() - getScreenPosition().x()));
-            System.out.println("Firing at " + target + " with damage " + this.damage + " and range " + this.range + " and type " + this.type + " and direction " + direction);
             switch (type) {
                 case "TREE" -> {
+                    System.out.println("Tree tower fired at " + direction + " degrees");
                     return new ProjectileApple(getScreenPosition().x(), getScreenPosition().y(), direction);
                 }
                 case "ICE" -> {

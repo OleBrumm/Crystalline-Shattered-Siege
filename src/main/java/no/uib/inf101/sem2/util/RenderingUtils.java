@@ -1,6 +1,6 @@
-package no.uib.inf101.sem2.view.renderers;
+package no.uib.inf101.sem2.util;
 
-import no.uib.inf101.sem2.grid.CellPositionToPixelConverter;
+import no.uib.inf101.sem2.grid.converter.CellPositionToPixelConverter;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.screen.ScreenPosition;
 

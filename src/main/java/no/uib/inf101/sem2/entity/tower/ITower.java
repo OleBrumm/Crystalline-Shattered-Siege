@@ -57,24 +57,6 @@ public interface ITower {
      */
     void setLevel(int level);
 
-    /**
-     * Returns the upgrade cost of the tower
-     *
-     * @return the upgrade cost of the tower
-     */
-    int getUpgradeCost();
-
-    /**
-     * Sets the upgrade cost of the tower
-     *
-     * @param upgradeCost the upgrade cost of the tower
-     */
-    void setUpgradeCost(int upgradeCost);
-
-    /**
-     * Upgrades the tower
-     */
-    void upgrade();
 
     /**
      * Fires a projectile

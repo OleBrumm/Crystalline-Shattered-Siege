@@ -16,6 +16,7 @@ public class Enemy implements IEnemy {
     public List<ScreenPosition> waypoints;
     private final String type;
     private String effect;
+    private boolean isSlowed;
 
     public Enemy(double x, double y, double speed, int health, int reward, int damage, double size, List<ScreenPosition> waypoints, String type, int currentWaypointIndex) {
         this.x = x;
@@ -114,8 +115,16 @@ public class Enemy implements IEnemy {
 
     private void applyEffect(String effect) {
         if (effect.equals("SLOW")) {
+            if (isSlowed()){
+                return;
+            }
+            isSlowed = true;
             setSpeed(speed / 3);
         }
+    }
+
+    private boolean isSlowed() {
+        return isSlowed;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package no.uib.inf101.sem2.grid;
+package no.uib.inf101.sem2.grid.converter;
 
 import no.uib.inf101.sem2.screen.ScreenPosition;
 

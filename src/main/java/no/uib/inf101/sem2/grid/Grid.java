@@ -44,17 +44,17 @@ public class Grid<E> implements IGrid<E> {
         if (!positionIsOnGrid(pos)) {
             throw new IllegalArgumentException("Position " + pos + " is not on the grid");
         }
-        grid[pos.row()][pos.col()] = value;
+        grid[pos.col()][pos.row()] = value;
     }
 
     @Override
     public E get(CellPosition pos) {
-        return grid[pos.row()][pos.col()];
+        return grid[pos.col()][pos.row()];
     }
 
     @Override
     public boolean positionIsOnGrid(CellPosition pos) {
-        return pos.row() >= 0 && pos.row() < rows && pos.col() >= 0 && pos.col() < cols;
+        return pos.col() >= 0 && pos.col() < rows && pos.row() >= 0 && pos.row() < cols;
     }
 
     @Override

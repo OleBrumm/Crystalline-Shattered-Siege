@@ -1,67 +1,58 @@
 package no.uib.inf101.sem2.controller;
 
-import no.uib.inf101.sem2.entity.projectile.projectileTypes.Explosion;
-import no.uib.inf101.sem2.entity.tower.*;
-import no.uib.inf101.sem2.entity.tower.towerTypes.TowerFire;
-import no.uib.inf101.sem2.entity.tower.towerTypes.TowerIce;
-import no.uib.inf101.sem2.entity.tower.towerTypes.TowerTree;
+import no.uib.inf101.sem2.entity.projectile.projectiletypes.Explosion;
+import no.uib.inf101.sem2.entity.tower.Tower;
+import no.uib.inf101.sem2.entity.tower.towertypes.TowerFire;
+import no.uib.inf101.sem2.entity.tower.towertypes.TowerIce;
+import no.uib.inf101.sem2.entity.tower.towertypes.TowerTree;
 import no.uib.inf101.sem2.grid.CellPosition;
-import no.uib.inf101.sem2.grid.CellPositionToPixelConverter;
+import no.uib.inf101.sem2.grid.converter.CellPositionToPixelConverter;
 import no.uib.inf101.sem2.model.GameState;
 import no.uib.inf101.sem2.model.TowerDefenseModel;
 import no.uib.inf101.sem2.view.TowerDefenseView;
-import no.uib.inf101.sem2.view.buttons.ButtonManager;
+import no.uib.inf101.sem2.view.ui.buttons.ButtonManager;
 import no.uib.inf101.sem2.view.views.GameRenderer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 import java.util.Iterator;
 import java.util.List;
 
 public class TowerDefenseController {
 
-    TowerDefenseModel model;
-    TowerDefenseView view;
-    Timer timer;
-    private String selectedTowerType = null;
+    private final TowerDefenseModel model;
+    private final TowerDefenseView view;
+    final Timer timer;
     private final CellPositionToPixelConverter converter;
     private final GameRenderer renderer;
 
+    String selectedTowerType = null;
     private int tickCounter = 0;
 
+    public TowerDefenseController(TowerDefenseModel model, TowerDefenseView view, ButtonManager buttonManager) {
+        this.model = model;
+        this.view = view;
 
-    public TowerDefenseController(TowerDefenseModel towerDefenseModel, TowerDefenseView towerDefenseView, ButtonManager buttonManager) {
-        // Set the model and view
-        this.model = towerDefenseModel;
-        this.view = towerDefenseView;
-
-        // Add the controller as a mouse listener to the view
         TowerDefenseMouseListener mouseListener = new TowerDefenseMouseListener(this);
         view.addMouseListener(mouseListener);
         view.addMouseMotionListener(mouseListener);
 
-        // Create a new timer
-        this.timer = new Timer(towerDefenseModel.getTimerInterval(), this::clockTick);
+        timer = new Timer(model.getTimerInterval(), this::clockTick);
 
-        // Set the converter
-        this.converter = view.getGameRenderer().getCellPositionConverter();
+        converter = view.getGameRenderer().getCellPositionConverter();
+        renderer = view.getGameRenderer();
 
-        // Update button actions
         updateButtonActions(buttonManager);
-
-        // Set the renderer
-        this.renderer = view.getGameRenderer();
     }
 
-    // Start the game and start the timer
-    public void startGame() {
+    void startGame() {
         model.startGame();
         timer.start();
     }
 
-    // Pause/unpause the game and stop/start the timer
-    public void pauseGame() {
+    void pauseGame() {
         if (model.getGameState() == GameState.IN_GAME) {
             model.pauseGame();
             timer.stop();
@@ -70,43 +61,40 @@ public class TowerDefenseController {
         }
     }
 
-    // Resume the game and start the timer
-    public void resumeGame() {
+    void resumeGame() {
         model.resumeGame();
         timer.start();
     }
 
-    // Restart the game and start the timer
-    private void restartGame() {
+    void restartGame() {
+        System.out.println("Restarting game from controller");
         model.restartGame();
         timer.restart();
     }
 
-    // Return to the main menu and stop the timer
-    private void mainMenu() {
+    void mainMenu() {
         model.mainMenu();
         timer.stop();
     }
 
-    private void clockTick(ActionEvent actionEvent) {
+    void clockTick(ActionEvent event) {
         model.clockTick();
         view.repaint();
 
-        // Adjust this value to change the frequency of enemy spawns
         int ticksBetweenSpawns = 25;
-        if (tickCounter % ticksBetweenSpawns == 0) {
+        if (++tickCounter % ticksBetweenSpawns == 0) {
             model.getWaveManager().spawnEnemiesForWave();
         }
 
         if (model.getWaveManager().isWaveComplete()) {
-            tickCounter = 0; // Reset the tickCounter when the wave is complete
+            tickCounter = 0;
             System.out.println("Wave complete!");
             model.getWaveManager().nextWave();
         }
 
-        // Update explosions and remove the ones that are finished
         List<Explosion> activeExplosions = model.getExplosions();
-        for (Iterator<Explosion> iterator = activeExplosions.iterator(); iterator.hasNext(); ) {
+        Iterator<Explosion> iterator = activeExplosions.iterator();
+        while (iterator.hasNext()) {
             Explosion explosion = iterator.next();
             explosion.update();
 
@@ -114,14 +102,13 @@ public class TowerDefenseController {
                 iterator.remove();
             }
         }
-
-        tickCounter++;
     }
 
     public void updateButtonActions(ButtonManager buttonManager) {
         buttonManager.startButton.addActionListener(e -> {
             startGame();
             buttonManager.updateButtonVisibility(model.getGameState());
+            System.out.println("Starting game from button");
         });
         buttonManager.pauseButton.addActionListener(e -> {
             pauseGame();
@@ -132,6 +119,7 @@ public class TowerDefenseController {
             buttonManager.updateButtonVisibility(model.getGameState());
         });
         buttonManager.restartButton.addActionListener(e -> {
+            System.out.println("Restarting game from button");
             restartGame();
             buttonManager.updateButtonVisibility(model.getGameState());
         });
@@ -146,29 +134,20 @@ public class TowerDefenseController {
         this.selectedTowerType = selectedTowerType;
     }
 
-    private Tower createTower(String towerType, int x, int y) {
-        return switch (towerType) {
-            case "TowerTree" -> new TowerTree(x, y, converter);
-            case "TowerIce" -> new TowerIce(x, y, converter);
-            case "TowerFire" -> new TowerFire(x, y, converter);
-            default -> null;
-        };
-    }
-
-    public void handleMouseDragged(MouseEvent e) {
+    public void handleMouseDragged(MouseEvent event) {
         if (selectedTowerType == null) {
             return;
         }
-        Tower tower = createTower(selectedTowerType, e.getX(), e.getY());
-        view.getGameRenderer().setDraggedTower(tower, e.getPoint());
+        Tower tower = createTower(selectedTowerType, event.getX(), event.getY());
+        renderer.setDraggedTower(tower, event.getPoint());
         view.repaint();
     }
 
-    public void handleMouseReleased(MouseEvent e) {
-        if (renderer == null || !renderer.isPointInGameRectangle(e.getPoint())) {
+    public void handleMouseReleased(MouseEvent event) {
+        if (renderer == null || !renderer.isPointInGameRectangle(event.getPoint())) {
             return;
         }
-        CellPosition closestCell = renderer.getClosestCell(e.getPoint());
+        CellPosition closestCell = renderer.getClosestCell(event.getPoint());
         if (!model.isTowerPlacementValid(closestCell)) {
             renderer.setDraggedTower(null, null);
             return;
@@ -181,8 +160,17 @@ public class TowerDefenseController {
         renderer.setDraggedTower(null, null);
     }
 
-    public void handleMousePressed(MouseEvent e) {
-        Point clickPoint = new Point(e.getX(), e.getY());
+    public void handleMousePressed(MouseEvent event) {
+        Point clickPoint = event.getPoint();
         setSelectedTowerType(renderer.getTowerTypeForPoint(clickPoint));
+    }
+
+    private Tower createTower(String towerType, int x, int y) {
+        return switch (towerType) {
+            case "TowerTree" -> new TowerTree(x, y, converter);
+            case "TowerIce" -> new TowerIce(x, y, converter);
+            case "TowerFire" -> new TowerFire(x, y, converter);
+            default -> null;
+        };
     }
 }

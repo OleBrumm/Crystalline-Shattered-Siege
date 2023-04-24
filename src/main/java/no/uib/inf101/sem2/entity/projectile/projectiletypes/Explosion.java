@@ -1,4 +1,4 @@
-package no.uib.inf101.sem2.entity.projectile.projectileTypes;
+package no.uib.inf101.sem2.entity.projectile.projectiletypes;
 
 public class Explosion {
 

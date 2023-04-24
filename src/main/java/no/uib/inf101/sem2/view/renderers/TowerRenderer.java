@@ -1,7 +1,8 @@
 package no.uib.inf101.sem2.view.renderers;
 
 import no.uib.inf101.sem2.entity.tower.Tower;
-import no.uib.inf101.sem2.grid.CellPositionToPixelConverter;
+import no.uib.inf101.sem2.grid.converter.CellPositionToPixelConverter;
+import no.uib.inf101.sem2.util.RenderingUtils;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

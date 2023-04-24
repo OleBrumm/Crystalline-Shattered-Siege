@@ -13,6 +13,8 @@ public class Main {
 
     private final static int FIELD_WIDTH = 16;
     private final static int FIELD_HEIGHT = 12;
+    private final static int WINDOW_WIDTH = 800;
+    private final static int WINDOW_HEIGHT = 600;
 
     public static void main(String[] args) throws IOException, FontFormatException {
         TowerDefenseField towerDefenseField = new TowerDefenseField(FIELD_HEIGHT, FIELD_WIDTH);

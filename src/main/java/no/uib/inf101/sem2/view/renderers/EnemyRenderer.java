@@ -1,10 +1,9 @@
 package no.uib.inf101.sem2.view.renderers;
 
 import no.uib.inf101.sem2.entity.enemy.Enemy;
-import no.uib.inf101.sem2.entity.enemy.enemyTypes.EnemyBlue;
-import no.uib.inf101.sem2.entity.enemy.enemyTypes.EnemyRed;
-import no.uib.inf101.sem2.entity.enemy.enemyTypes.EnemyYellow;
-import no.uib.inf101.sem2.grid.ScreenPositionToBoundsConverter;
+import no.uib.inf101.sem2.entity.enemy.enemytypes.*;
+import no.uib.inf101.sem2.grid.converter.ScreenPositionToBoundsConverter;
+import no.uib.inf101.sem2.util.RenderingUtils;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -43,7 +42,15 @@ public class EnemyRenderer {
             return enemyImages.get("EnemyBlue");
         } else if (enemy instanceof EnemyYellow) {
             return enemyImages.get("EnemyYellow");
-        } else {
+        } else if (enemy instanceof EnemyGreen) {
+            return enemyImages.get("EnemyGreen");
+        } else if (enemy instanceof EnemyPurple) {
+            return enemyImages.get("EnemyPurple");
+        } else if (enemy instanceof EnemyBoss) {
+            return enemyImages.get("EnemyBoss");
+        }
+
+        else {
             return null;
         }
     }

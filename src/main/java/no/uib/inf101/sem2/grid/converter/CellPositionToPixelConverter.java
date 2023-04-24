@@ -1,5 +1,7 @@
-package no.uib.inf101.sem2.grid;
+package no.uib.inf101.sem2.grid.converter;
 
+import no.uib.inf101.sem2.grid.CellPosition;
+import no.uib.inf101.sem2.grid.GridDimension;
 import no.uib.inf101.sem2.screen.ScreenPosition;
 
 import java.awt.geom.Rectangle2D;
@@ -34,8 +36,8 @@ public class CellPositionToPixelConverter {
     public Rectangle2D getBoundsForCell(CellPosition cellPosition) {
         double cellWidth = (canvasRectangle.getWidth() - (gridDimension.cols() + 1) * cellMargin) / gridDimension.cols();
         double cellHeight = (canvasRectangle.getHeight() - (gridDimension.rows() + 1) * cellMargin) / gridDimension.rows();
-        double cellX = canvasRectangle.getX() + cellMargin + cellPosition.col() * (cellWidth + cellMargin);
-        double cellY = canvasRectangle.getY() + cellMargin + cellPosition.row() * (cellHeight + cellMargin);
+        double cellX = canvasRectangle.getX() + cellMargin + cellPosition.row() * (cellWidth + cellMargin);
+        double cellY = canvasRectangle.getY() + cellMargin + cellPosition.col() * (cellHeight + cellMargin);
 
         return new Rectangle2D.Double(cellX, cellY, cellWidth, cellHeight);
     }
@@ -49,5 +51,15 @@ public class CellPositionToPixelConverter {
     public ScreenPosition getCenterForCell(CellPosition cellPosition) {
         Rectangle2D bounds = getBoundsForCell(cellPosition);
         return new ScreenPosition(bounds.getCenterX(), bounds.getCenterY());
+    }
+
+    public CellPosition getCellPositionFromScreenPosition(ScreenPosition screenPosition) {
+        double cellWidth = (canvasRectangle.getWidth() - (gridDimension.cols() + 1) * cellMargin) / gridDimension.cols();
+        double cellHeight = (canvasRectangle.getHeight() - (gridDimension.rows() + 1) * cellMargin) / gridDimension.rows();
+
+        int col = (int) ((screenPosition.x() - canvasRectangle.getX() - cellMargin) / (cellWidth + cellMargin));
+        int row = (int) ((screenPosition.y() - canvasRectangle.getY() - cellMargin) / (cellHeight + cellMargin));
+
+        return new CellPosition(row, col);
     }
 }

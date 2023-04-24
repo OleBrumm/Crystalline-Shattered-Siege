@@ -1,6 +1,7 @@
 package no.uib.inf101.sem2.view.renderers;
 
-import no.uib.inf101.sem2.entity.projectile.projectileTypes.Explosion;
+import no.uib.inf101.sem2.entity.projectile.projectiletypes.Explosion;
+import no.uib.inf101.sem2.util.RenderingUtils;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

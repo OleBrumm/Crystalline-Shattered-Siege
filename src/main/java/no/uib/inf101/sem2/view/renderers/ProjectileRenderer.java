@@ -1,9 +1,9 @@
 package no.uib.inf101.sem2.view.renderers;
 
 import no.uib.inf101.sem2.entity.projectile.Projectile;
-import no.uib.inf101.sem2.entity.projectile.projectileTypes.ProjectileApple;
-import no.uib.inf101.sem2.entity.projectile.projectileTypes.ProjectileFire;
-import no.uib.inf101.sem2.entity.projectile.projectileTypes.ProjectileIce;
+import no.uib.inf101.sem2.entity.projectile.projectiletypes.ProjectileApple;
+import no.uib.inf101.sem2.entity.projectile.projectiletypes.ProjectileFire;
+import no.uib.inf101.sem2.entity.projectile.projectiletypes.ProjectileIce;
 import no.uib.inf101.sem2.screen.ScreenPosition;
 import no.uib.inf101.sem2.screen.ScreenPositionProjectileBounds;
 

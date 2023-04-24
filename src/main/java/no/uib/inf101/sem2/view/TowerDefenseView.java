@@ -1,8 +1,7 @@
 package no.uib.inf101.sem2.view;
 
 import no.uib.inf101.sem2.model.TowerDefenseModel;
-import no.uib.inf101.sem2.view.backgrounds.BackgroundImages;
-import no.uib.inf101.sem2.view.buttons.ButtonManager;
+import no.uib.inf101.sem2.view.ui.buttons.ButtonManager;
 import no.uib.inf101.sem2.view.resources.ImageResources;
 import no.uib.inf101.sem2.view.views.*;
 
@@ -30,9 +29,6 @@ public class TowerDefenseView extends JPanel {
     // Image resources
     private final ImageResources imageResources;
 
-    // Background images
-    private final BackgroundImages backgroundImages;
-
     // View renderers
     private final MainMenuRenderer mainMenuRenderer;
     private final GameOverRenderer gameOverRenderer;
@@ -56,9 +52,6 @@ public class TowerDefenseView extends JPanel {
         this.setLayout(null);
         this.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
-        // Load background images
-        backgroundImages = new BackgroundImages();
-
         // Initialize image resources
         imageResources = new ImageResources();
 
@@ -76,10 +69,10 @@ public class TowerDefenseView extends JPanel {
         Font titleFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
 
         // Initialize view renderers
-        mainMenuRenderer = new MainMenuRenderer(backgroundImages, titleFont, WINDOW_WIDTH, WINDOW_HEIGHT);
+        mainMenuRenderer = new MainMenuRenderer(imageResources, titleFont, WINDOW_WIDTH, WINDOW_HEIGHT);
         gameOverRenderer = new GameOverRenderer(titleFont, WINDOW_WIDTH, WINDOW_HEIGHT);
-        gameRenderer = new GameRenderer(model, backgroundImages, imageResources, WINDOW_WIDTH, WINDOW_HEIGHT);
-        pausedScreenRenderer = new PausedScreenRenderer(backgroundImages, titleFont, WINDOW_WIDTH, WINDOW_HEIGHT);
+        gameRenderer = new GameRenderer(model, imageResources, WINDOW_WIDTH, WINDOW_HEIGHT);
+        pausedScreenRenderer = new PausedScreenRenderer(imageResources, titleFont, WINDOW_WIDTH, WINDOW_HEIGHT);
         victoryScreenRenderer = new VictoryScreenRenderer(titleFont, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     }
