@@ -34,11 +34,6 @@ public class Grid<E> implements IGrid<E> {
         }
     }
 
-    // This constructor is used by the subclasses
-    public Grid(int rows, int cols) {
-        this(rows, cols, null);
-    }
-
     @Override
     public void set(CellPosition pos, E value) {
         if (!positionIsOnGrid(pos)) {
