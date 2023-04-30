@@ -1,6 +1,6 @@
-# Tårnforsvar Spill
+# Crystalline: Shattered Siege
 
-Tårnforsvar er et strategibasert spill der spilleren må forsvare sitt territorium mot bølger av inntrengende fiender. For å klare dette plasserer spilleren strategisk tårn langs fiendens bane. Tårnene angriper automatisk fiendene når de passerer forbi.
+Crystalline: Shattered Siege er et strategibasert Tower Defense spill, likt Bloons TD, der spilleren må forsvare sitt territorium mot bølger av inntrengende fiender. For å klare dette plasserer spilleren strategisk tårn langs fiendens bane. Tårnene angriper automatisk fiendene når de passerer forbi.
 
 
 ## Spilldemo
@@ -14,7 +14,7 @@ For å installere og kjøre spillet, følg instruksjonene nedenfor:
 
 1. Klone repositoriet til din lokale maskin:
 ```
-git clone https://github.com/yourusername/tower-defense.git
+git clone https://git.app.uib.no/Ditt.Brukernavn/sem2.git
 ```
 
 2. Åpne prosjektet i din foretrukne Java IDE (f.eks., IntelliJ IDEA eller Eclipse).
