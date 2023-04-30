@@ -140,26 +140,26 @@ public class TowerDefenseControllerTest {
         ImageButton mainMenuButton = buttonManager.mainMenuButton;
         ImageButton exitButton = buttonManager.exitButton;
 
+        // Checks if the length of the action listeners is 1
+        // Does this because the buttons are initialized with 1 action listener
+        assertEquals(1, startButton.getActionListeners().length);
+        assertEquals(1, pauseButton.getActionListeners().length);
+        assertEquals(1, resumeButton.getActionListeners().length);
+        assertEquals(1, restartButton.getActionListeners().length);
+        assertEquals(1, mainMenuButton.getActionListeners().length);
+        assertEquals(1, exitButton.getActionListeners().length);
+
+
+        controller.updateButtonActions(buttonManager);
+
         // Checks if the length of the action listeners is 2
-        // Does this because the buttons are initialized with 2 action listener
+        // Does this because the buttons should now be updated to have one more action listener
         assertEquals(2, startButton.getActionListeners().length);
         assertEquals(2, pauseButton.getActionListeners().length);
         assertEquals(2, resumeButton.getActionListeners().length);
         assertEquals(2, restartButton.getActionListeners().length);
         assertEquals(2, mainMenuButton.getActionListeners().length);
         assertEquals(2, exitButton.getActionListeners().length);
-
-
-        controller.updateButtonActions(buttonManager);
-
-        // Checks if the length of the action listeners is 3
-        // Does this because the buttons should now be updated to have one more action listener
-        assertEquals(3, startButton.getActionListeners().length);
-        assertEquals(3, pauseButton.getActionListeners().length);
-        assertEquals(3, resumeButton.getActionListeners().length);
-        assertEquals(3, restartButton.getActionListeners().length);
-        assertEquals(3, mainMenuButton.getActionListeners().length);
-        assertEquals(3, exitButton.getActionListeners().length);
 
     }
 
@@ -175,18 +175,4 @@ public class TowerDefenseControllerTest {
         assertEquals("TowerFire", controller.selectedTowerType);
     }
 
-    @Test
-    public void testHandleMouseDragged() {
-
-    }
-
-    @Test
-    public void testHandleMouseReleased() {
-        // TODO: Implement test for handleMouseReleased() method
-    }
-
-    @Test
-    public void testHandleMousePressed() {
-        // TODO: Implement test for handleMousePressed() method
-    }
 }

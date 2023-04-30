@@ -24,7 +24,7 @@ class ProjectileTest {
         waypoints.add(new ScreenPosition(100, 0));
 
         projectile = new Projectile(0, 0, 0, 10, 5, 1, "NONE", 1);
-        enemy = new EnemyRed(0, 0, waypoints, 0);
+        enemy = new EnemyRed(100, 100, waypoints, 0);
     }
 
     @Test

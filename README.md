@@ -2,6 +2,12 @@
 
 Tårnforsvar er et strategibasert spill der spilleren må forsvare sitt territorium mot bølger av inntrengende fiender. For å klare dette plasserer spilleren strategisk tårn langs fiendens bane. Tårnene angriper automatisk fiendene når de passerer forbi.
 
+
+## Spilldemo
+
+https://youtu.be/0NtGqEaoqWs
+
+
 ## Installasjon
 
 For å installere og kjøre spillet, følg instruksjonene nedenfor:
